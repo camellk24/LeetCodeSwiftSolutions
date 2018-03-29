@@ -1,2 +1,3 @@
 # LeetCodeSwiftSolutions
-Leet Code Swift Solutions
+
+for self-learning purpose.
