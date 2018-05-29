@@ -38,6 +38,7 @@ func strStr(_ haystack: String, _ needle: String) -> Int {
     return 0
   }
   
+  // easy mistake: 0 ..< hlen - nlen
   for i in 0...hLen - nLen {
     if hChars[i] == nChars[0] {
       for j in 0..<nLen {

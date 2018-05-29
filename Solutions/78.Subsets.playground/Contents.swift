@@ -47,13 +47,12 @@ func dfs(nums: [Int], startIndex: Int, subset: [Int], result: inout [[Int]]) {
   
   result.append(subset)
   
-  for i in startIndex ..< nums.count {
-    var newSubset = subset
-    newSubset.append(nums[i])
-    dfs(nums: sortedNums, startIndex: i+1, subset: newSubset, result: &result)
-    
-    // need to remove the last one
-    newSubset.removeLast()
+  if startIndex < nums.count {
+    for i in startIndex ..< nums.count {
+      var newSubset = subset
+      newSubset.append(nums[i])
+      dfs(nums: sortedNums, startIndex: i+1, subset: newSubset, result: &result)
+    }
   }
   
 }
