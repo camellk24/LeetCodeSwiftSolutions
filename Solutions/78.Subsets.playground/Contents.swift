@@ -36,7 +36,7 @@ func subsets(_ nums: [Int]) -> [[Int]] {
 /*:
  ## DFS
  
- **Time Complexity:** O(n!).
+ **Time Complexity:** O(2^n).
  
  **Space Complexity:** O(n).
  
