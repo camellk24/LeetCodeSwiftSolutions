@@ -38,6 +38,8 @@ func subsets(_ nums: [Int]) -> [[Int]] {
  
  **Time Complexity:** O(2^n).
  
+ The number of recursive calls, T(n) satisfies the recurrence T(n) = T(n - 1) + T(n - 2) + ... + T(1) + T(0), which solves to T(n) = O(2^n). Since we spend O(n) time within a call, the time complexity is O(n2^n);
+ 
  **Space Complexity:** O(n).
  
  */
