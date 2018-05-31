@@ -31,7 +31,6 @@
  */
 
 /*:
- ## One Passes dictionary solution (Best Solution)
  
  **Time Complexity:** O(nlogn)
  
@@ -47,9 +46,10 @@ func findMin(_ nums: [Int]) -> Int {
   
   // make the last number as target
   // find the first number less than target
-  let target = nums[nums.count - 1]
+  
   var start = 0
   var end = nums.count - 1
+  let target = nums[end]
   
   while (start + 1 < end) {
     
