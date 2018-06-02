@@ -1,18 +1,18 @@
 /*:
  # 144. Binary Tree Preorder Traversal
  
- Given a binary tree, return the preorder traversal of its nodes' values.
+ Given a binary tree, return the postorder traversal of its nodes' values.
  
  Example:
  
  Input: [1,null,2,3]
  1
  \
-  2
+ 2
  /
  3
  
- Output: [1,2,3]
+ Output: [3,2,1]
  
  **Implement below function**
  
@@ -43,7 +43,7 @@
  */
 
 
- // Definition for a binary tree node.
+// Definition for a binary tree node.
 public class TreeNode {
   public var val: Int
   public var left: TreeNode?
@@ -57,40 +57,32 @@ public class TreeNode {
 
 
 
-func postorderTraversal(_ root: TreeNode?) -> [Int] {
+func preorderTraversal(_ root: TreeNode?) -> [Int] {
   
   guard let root = root else { return [] }
   
-  var stack1: [TreeNode] = []
-  var stack2: [TreeNode] = []
+  var stack: [TreeNode] = []
   var result: [Int] = []
   
-  stack1.append(root)
+  stack.append(root)
   
-  while (!stack1.isEmpty) {
+  while !stack.isEmpty {
     
-    let node = stack1.removeLast()
-    
-    stack2.append(node)
-    
-    if let leftNode = node.left {
-      stack1.append(leftNode)
-    }
+    let node = stack.removeLast()
+    result.append(node.val)
     
     if let rightNode = node.right {
-      stack1.append(rightNode)
+      stack.append(rightNode)
     }
     
-  }
-  
-  while (!stack2.isEmpty) {
+    if let leftNode = node.left {
+      stack.append(leftNode)
+    }
     
-    let node = stack2.removeLast()
-    result.append(node.val)
   }
   
   return result
-    
+  
 }
 
 
@@ -99,7 +91,7 @@ func postorderTraversal(_ root: TreeNode?) -> [Int] {
  */
 import XCTest
 
-class TestBinaryTreePostorderTraversal: XCTestCase {
+class TestBinaryTreePreorderTraversal: XCTestCase {
   
   func getTestTree() -> TreeNode {
     // [1,null,2,3]
@@ -111,12 +103,12 @@ class TestBinaryTreePostorderTraversal: XCTestCase {
     return root
   }
   
-  func testBinaryTreePostorderTraversal() {
-    let result = postorderTraversal(getTestTree())
-    XCTAssertEqual(result, [3, 2, 1])
+  func testBinaryTreePreorderTraversal() {
+    let result = preorderTraversal(getTestTree())
+    XCTAssertEqual(result, [1, 2, 3])
   }
   
   
 }
 
-TestBinaryTreePostorderTraversal.defaultTestSuite.run()
+TestBinaryTreePreorderTraversal.defaultTestSuite.run()
