@@ -48,7 +48,7 @@
  * }
  */
  
- func lowestCommonAncestor(_ root: TreeNode?, _ p: TreeNode, q: TreeNode) -> TreeNode? {
+ func isValidBST(_ root: TreeNode?) -> Bool {
  
  }
  
