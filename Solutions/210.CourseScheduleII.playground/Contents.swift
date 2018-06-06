@@ -38,9 +38,9 @@
  Topological Sort
  Goal: to find no cycle in directed graph
  
- **Time Complexity:** O(n)
+ **Time Complexity:** n nodes, m edges -> O(m)
  
- **Space Complexity:** O(n)
+ **Space Complexity:** O(m)
  */
 
 func findOrder(_ numCourses: Int, _ prerequisites: [[Int]]) -> [Int] {
