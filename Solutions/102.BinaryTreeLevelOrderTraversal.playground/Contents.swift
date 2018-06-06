@@ -1,113 +1,97 @@
 /*:
- # 207. Course Schedule
+ # 102. Binary Tree Level Order Traversal
  
- There are a total of n courses you have to take, labeled from 0 to n-1.
+ Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
  
- Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
+ For example:
+ Given binary tree [3,9,20,null,null,15,7],
+    3
+   / \
+   9  20
+      / \
+     15  7
+ return its level order traversal as:
+ [
+ [3],
+ [9,20],
+ [15,7]
+ ]
  
- Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
+ **Implement below function**
  
- Example 1:
+ /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public var val: Int
+ *     public var left: TreeNode?
+ *     public var right: TreeNode?
+ *     public init(_ val: Int) {
+ *         self.val = val
+ *         self.left = nil
+ *         self.right = nil
+ *     }
+ * }
+ */
  
- Input: 2, [[1,0]]
- Output: true
- Explanation: There are a total of 2 courses to take.
- To take course 1 you should have finished course 0. So it is possible.
- Example 2:
- 
- Input: 2, [[1,0],[0,1]]
- Output: false
- Explanation: There are a total of 2 courses to take.
- To take course 1 you should have finished course 0, and to take course 0 you should
- also have finished course 1. So it is impossible.
- Note:
- 
- The input prerequisites is a graph represented by a list of edges, not adjacency matrices. Read more about how a graph is represented.
- You may assume that there are no duplicate edges in the input prerequisites.
- 
- func canFinish(_ numCourses: Int, _ prerequisites: [[Int]]) -> Bool {
+ func levelOrder(_ root: TreeNode?) -> [[Int]] {
  
  }
  
  */
 
+// Definition for a binary tree node.
+public class TreeNode {
+  public var val: Int
+  public var left: TreeNode?
+  public var right: TreeNode?
+  public init(_ val: Int) {
+    self.val = val
+    self.left = nil
+    self.right = nil
+  }
+}
+
 /*:
- 
- Topological Sort
- Goal: to find no cycle in directed graph
+ Traversal
  
  **Time Complexity:** O(n)
  
  **Space Complexity:** O(n)
  */
 
-func canFinish(_ numCourses: Int, _ prerequisites: [[Int]]) -> Bool {
+func levelOrder(_ root: TreeNode?) -> [[Int]] {
   
-  // Goal: to find no cycle in directed graph
-  
-  // build graph and indegree
-  var graph: [Int: Set<Int>] = [:]
-  var indegree: [Int: Int] = [:]
-  buildGraphAndIndegree(numCourses, prerequisites, &graph, &indegree)
-  
-  // find nodes with 0 indegree
-  var queue: [Int] = []
-  for (node, _indegree) in indegree {
-    if _indegree == 0 {
-      queue.append(node)
-    }
+  guard let root = root else {
+    return []
   }
   
-  // bfs
-  var visited = 0
+  
+  var result: [[Int]] = []
+  var queue: [TreeNode] = []
+  queue.append(root)
+  
   while (!queue.isEmpty) {
-    let node = queue.removeFirst()
-    visited += 1
-    if let neighbors = graph[node] {
-      for neighbor in neighbors {
-        if var existingIndegree = indegree[neighbor] {
-          existingIndegree -= 1
-          indegree[neighbor] = existingIndegree
-          if existingIndegree == 0 {
-            queue.append(neighbor)
-          }
-        }
+    var level: [Int] = []
+    
+    let size = queue.count
+    
+    for _ in 0 ..< size {
+      let node = queue.removeFirst()
+      level.append(node.val)
+      
+      if let leftNode = node.left {
+        queue.append(leftNode)
       }
       
+      if let rightNnode = node.right {
+        queue.append(rightNnode)
+      }
     }
+    result.append(level)
     
   }
   
-  return visited == numCourses
-}
-
-func buildGraphAndIndegree(_ n: Int, _ edges: [[Int]], _ graph: inout [Int: Set<Int>], _ indegree: inout [Int: Int]) {
-  
-  for i in 0..<n {
-    graph[i] = Set<Int>()
-    indegree[i] = 0
-  }
-  
-  for i in 0 ..< edges.count {
-    let u = edges[i][0]
-    let v = edges[i][1]
-    
-    // build graph, only add v -> u
-    if var existingSet = graph[v] {
-      existingSet.insert(u)
-      graph[v] = existingSet
-    } else {
-      graph[v] = [u]
-    }
-    
-    // build indegree
-    if var existingIndegree = indegree[u] {
-      existingIndegree += 1
-      indegree[u] = existingIndegree
-    }
-    
-  }
-  
+  return result
 }
 
 /*:
@@ -115,19 +99,24 @@ func buildGraphAndIndegree(_ n: Int, _ edges: [[Int]], _ graph: inout [Int: Set<
  */
 import XCTest
 
-class TestCourseSchedule: XCTestCase {
+class TestBinaryTreeLevelOrderTraversal: XCTestCase {
   
-  func testCourseSchedule1() {
-    let result = canFinish(2, [[1, 0]])
-    XCTAssertTrue(result)
+  func getTestTree() -> TreeNode {
+    let root = TreeNode(3)
+    let nodeTwenty = TreeNode(20)
+    nodeTwenty.left = TreeNode(15)
+    nodeTwenty.right = TreeNode(7)
+    root.left = TreeNode(9)
+    root.right = nodeTwenty
+    return root
   }
   
-  func testCourseSchedule2() {
-    let result = canFinish(2, [[1, 0], [0, 1]])
-    XCTAssertFalse(result)
+  func testBinaryTreeLevelOrderTraversal() {
+    let result = levelOrder(getTestTree())
+    XCTAssertEqual(result, [[3], [9, 20], [15, 7]])
   }
   
   
 }
 
-TestCourseSchedule.defaultTestSuite.run()
+TestBinaryTreeLevelOrderTraversal.defaultTestSuite.run()
