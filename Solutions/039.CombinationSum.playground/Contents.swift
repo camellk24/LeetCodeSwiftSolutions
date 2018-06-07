@@ -47,12 +47,15 @@ func combinationSum(_ candidates: [Int], _ target: Int) -> [[Int]] {
     return result
   }
   
-  // 1. 定义递归
-  helper(candidates, 0, [], target, &result)
+  // sort array to remove some unnecessary iterations
+  let sortedCandidates = candidates.sorted()
+  
+  helper(sortedCandidates, 0, [], target, &result)
   
   return result
 }
 
+// 1. 定义递归
 private func helper(_ nums: [Int], _ startIndex: Int, _ combinations: [Int], _ target: Int, _ result: inout [[Int]]) {
   
   // 3. 递归出口
@@ -62,15 +65,21 @@ private func helper(_ nums: [Int], _ startIndex: Int, _ combinations: [Int], _ t
     return
   }
   
-  // 2. 递归的拆解
+  
   for i in startIndex ..< nums.count {
     
-    if nums[i] > target {
-      continue
+    let num = nums[i]
+    
+    if num > target {
+      break
     }
-    var mutableComb = combinations
-    mutableComb.append(nums[i])
-    helper(nums, i, mutableComb, target - nums[i], &result)
+    
+    // 2. 递归的拆解
+    var mutableCombinations = combinations
+    mutableCombinations.append(num)
+    
+    // here we don't need to increment i + 1, because one element can be used unlimited times
+    helper(nums, i, mutableCombinations, target - num, &result)
   }
 }
 

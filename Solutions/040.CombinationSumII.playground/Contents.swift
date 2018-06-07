@@ -35,7 +35,7 @@
  */
 
 /*:
- **Time Complexity:** O(n!)
+ **Time Complexity:** 
  
  **Space Complexity:**
  */
