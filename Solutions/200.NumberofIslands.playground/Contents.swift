@@ -31,7 +31,7 @@
 /*:
  **Time Complexity:** O(nm)
  
- **Space Complexity:** O(nm)
+ **Space Complexity:** O(1)
  */
 
 // bfs solution is prefer over dfs, because dfs might need to deal with stack overflow issue
