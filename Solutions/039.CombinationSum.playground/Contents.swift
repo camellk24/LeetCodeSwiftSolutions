@@ -48,13 +48,12 @@ func combinationSum(_ candidates: [Int], _ target: Int) -> [[Int]] {
   }
   
   // 1. 定义递归
-  var combinations: [Int] = []
-  helper(candidates, 0, &combinations, target, &result)
+  helper(candidates, 0, [], target, &result)
   
   return result
 }
 
-private func helper(_ nums: [Int], _ startIndex: Int, _ combinations: inout [Int], _ target: Int, _ result: inout [[Int]]) {
+private func helper(_ nums: [Int], _ startIndex: Int, _ combinations: [Int], _ target: Int, _ result: inout [[Int]]) {
   
   // 3. 递归出口
   
@@ -69,10 +68,9 @@ private func helper(_ nums: [Int], _ startIndex: Int, _ combinations: inout [Int
     if nums[i] > target {
       continue
     }
-    
-    combinations.append(nums[i])
-    helper(nums, i, &combinations, target - nums[i], &result)
-    combinations.removeLast()
+    var mutableComb = combinations
+    mutableComb.append(nums[i])
+    helper(nums, i, mutableComb, target - nums[i], &result)
   }
 }
 
