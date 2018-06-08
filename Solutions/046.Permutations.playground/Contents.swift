@@ -33,26 +33,35 @@ func permute(_ nums: [Int]) -> [[Int]] {
   guard nums.count > 0 else { return [] }
   
   var results: [[Int]] = []
-  dfs(nums, [], &results)
+  var permutations: [Int] = []
+  
+  // used visited to check visited elements
+  var visited: [Bool] = []
+  for _ in 0 ..< nums.count {
+    visited.append(false)
+  }
+  
+  dfs(nums, &permutations, &visited, &results)
   return results
 }
 
 // define recursionn
-func dfs(_ nums: [Int], _ subsets: [Int], _ results: inout [[Int]]) {
+func dfs(_ nums: [Int], _ permutations: inout [Int], _ visited: inout [Bool], _ results: inout [[Int]]) {
   
-  if subsets.count == nums.count {
-    results.append(subsets)
+  if permutations.count == nums.count {
+    results.append(permutations)
     return
   }
   
   for i in 0 ..< nums.count {
-    let num = nums[i]
-    if subsets.contains(num) {
+    if visited[i] {
       continue
     }
-    var mutableSubsets = subsets
-    mutableSubsets.append(num)
-    dfs(nums, mutableSubsets, &results)
+    visited[i] = true
+    permutations.append(nums[i])
+    dfs(nums, &permutations, &visited, &results)
+    permutations.removeLast()
+    visited[i] = false
   }
 }
 /*:
