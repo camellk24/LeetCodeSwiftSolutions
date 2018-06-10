@@ -27,7 +27,8 @@ func validTree(_ n: Int, _ edges: [[Int]]) -> Bool {
   guard n > 0 else {
     return false
   }
-  
+  // 判断条件：
+  // 1. n 个点需要有 n - 1 条边
   guard n - 1 == edges.count else {
     return false
   }
@@ -40,6 +41,7 @@ func validTree(_ n: Int, _ edges: [[Int]]) -> Bool {
   queue.append(0)
   visitedNode.insert(0)
   
+  // 2. bfs 找graph 的连通性
   while (!queue.isEmpty) {
     
     let node = queue.removeFirst()
@@ -48,6 +50,7 @@ func validTree(_ n: Int, _ edges: [[Int]]) -> Bool {
       
       for neighbor in edges {
         if visitedNode.contains(neighbor) {
+          // 此处不可以直接返回false, 因为图是undirected
           continue
         }
         visitedNode.insert(neighbor)
