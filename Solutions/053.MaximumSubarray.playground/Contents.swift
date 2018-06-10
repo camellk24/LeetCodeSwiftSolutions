@@ -34,17 +34,17 @@ func maxSubArrayPrefixSum(_ nums: [Int]) -> Int {
     return 0
   }
   
-  // sum[i~j] = prefixsum[i+j] - prefixsum[i]
+  // subarray(i,j) = prefixsum(j) - prefixsum(i-1)
   
-  var maxSumIToJ = Int.min
-  var minPrefixSumI = 0 // empty array
-  var prefixSumIPlusJ = 0
+  var subarraySum = Int.min
+  var minPrefixSum = 0 // empty array
+  var maxPrefixSum = 0
   for i in 0 ..< nums.count {
-    prefixSumIPlusJ += nums[i]
-    maxSumIToJ = max(prefixSumIPlusJ - minPrefixSumI, maxSumIToJ)
-    minPrefixSumI = min(prefixSumIPlusJ, minPrefixSumI)
+    maxPrefixSum += nums[i]
+    subarraySum = max(maxPrefixSum - minPrefixSum, subarraySum)
+    minPrefixSum = min(maxPrefixSum, minPrefixSum)
   }
-  return maxSumIToJ
+  return subarraySum
 }
 
 /*:
