@@ -36,9 +36,11 @@ func subsets(_ nums: [Int]) -> [[Int]] {
 /*:
  ## DFS
  
- **Time Complexity:** O(2^n).
+ **Time Complexity:** O(n *2^n).
  
- The number of recursive calls, T(n) satisfies the recurrence T(n) = T(n - 1) + T(n - 2) + ... + T(1) + T(0), which solves to T(n) = O(2^n). Since we spend O(n) time within a call, the time complexity is O(n2^n);
+ O(答案个数 * 构造每个答案的时间）
+ 
+ 子集个数 2^n, 每个集合的平均长度是O(n) -> O(n * 2^n)
  
  **Space Complexity:** O(n).
  
