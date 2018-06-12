@@ -21,7 +21,7 @@
 
 
 /*:
- Quick select solution
+ Two Pointers
  
  **Time Complexity:** O(n)
  
