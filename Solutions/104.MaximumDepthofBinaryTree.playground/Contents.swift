@@ -64,18 +64,43 @@ public class TreeNode {
  **Space Complexity:** O(1)
  */
 
-func maxDepth(_ root: TreeNode?) -> Int {
+func maxDepth_divide_conquer(_ root: TreeNode?) -> Int {
   
   guard let root = root else {
     return 0
   }
   
-  let leftDepth = maxDepth(root.left)
-  let rightDepth = maxDepth(root.right)
+  let leftDepth = maxDepth_divide_conquer(root.left)
+  let rightDepth = maxDepth_divide_conquer(root.right)
   
   return max(leftDepth, rightDepth) + 1
-  
 }
+
+/*:
+ DFS
+ 
+ **Time Complexity:** O(n)
+ 
+ **Space Complexity:** O(1)
+ */
+
+func maxDepth_dfs(_ root: TreeNode?) -> Int {
+  
+  guard let root = root else {
+    return 0
+  }
+  
+  return dfs(root, 0)
+}
+
+func dfs(_ root: TreeNode?, _ maxDepth: Int) -> Int {
+  guard let root = root else {
+    return maxDepth
+  }
+  return max(dfs(root.left, maxDepth + 1), dfs(root.right, maxDepth + 1))
+}
+
+
 
 
 /*:
@@ -97,7 +122,12 @@ class TestMaximumDepthOfBinaryTree: XCTestCase {
   }
   
   func testMaxDepth_DivideConquer() {
-    let result = maxDepth(getTestTree())
+    let result = maxDepth_divide_conquer(getTestTree())
+    XCTAssertEqual(result, 3)
+  }
+  
+  func testMaxDepth_dfs() {
+    let result = maxDepth_dfs(getTestTree())
     XCTAssertEqual(result, 3)
   }
   

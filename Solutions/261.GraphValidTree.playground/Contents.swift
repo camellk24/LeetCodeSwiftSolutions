@@ -50,7 +50,7 @@ func validTree(_ n: Int, _ edges: [[Int]]) -> Bool {
       
       for neighbor in edges {
         if visitedNode.contains(neighbor) {
-          // 此处不可以直接返回false, 因为图是undirected 
+          // 此处不可以直接返回false, 因为图是undirected
           continue
         }
         visitedNode.insert(neighbor)
