@@ -77,35 +77,35 @@ public class TreeNode {
  **Space Complexity:** O(n)
  */
 
-func lowestCommonAncestor(_ root: TreeNode?, _ p: TreeNode, q: TreeNode) -> TreeNode? {
+func lowestCommonAncestor(_ root: TreeNode?, _ p: TreeNode, _ q: TreeNode) -> TreeNode? {
   
   // exit
-  
+
   guard let root = root else {
-    return .none
+    return nil
   }
-  
-  if root.val == p.val || root.val == q.val {
+
+  if root === p || root === q {
     return root
   }
-  
+
   // split
-  let leftLCA = lowestCommonAncestor(root.left, p, q: q)
-  let rightLCA = lowestCommonAncestor(root.right, p, q: q)
-  
+  let leftLCA = lowestCommonAncestor(root.left, p, q)
+  let rightLCA = lowestCommonAncestor(root.right, p, q)
+
   if leftLCA != nil && rightLCA != nil {
     return root
   }
-  
+
   if leftLCA != nil && rightLCA == nil {
     return leftLCA
   }
-  
+
   if rightLCA != nil && leftLCA == nil {
     return rightLCA
   }
-  
-  return .none
+
+  return nil
 }
 
 
@@ -137,13 +137,50 @@ class TestLowestCommonAncestor: XCTestCase {
   }
   
   func testLowestCommonAncestor1() {
-    let result = lowestCommonAncestor(getTestTree(), TreeNode(5), q: TreeNode(1))
-    XCTAssertEqual(result?.val, 3)
+    
+    // [3,5,1,6,2,0,8,null,null,7,4]
+    let root = TreeNode(3)
+    let nodeTwo = TreeNode(2)
+    nodeTwo.left = TreeNode(7)
+    nodeTwo.right = TreeNode(4)
+    
+    let nodeFive = TreeNode(5)
+    nodeFive.left = TreeNode(6)
+    nodeFive.right = nodeTwo
+    
+    let nodeOne = TreeNode(1)
+    nodeOne.left = TreeNode(0)
+    nodeOne.right = TreeNode(8)
+    
+    root.left = nodeFive
+    root.right = nodeOne
+    
+    let result = lowestCommonAncestor(root, nodeFive, nodeOne)
+    XCTAssertTrue(result === root)
   }
   
   func testLowestCommonAncestor2() {
-    let result = lowestCommonAncestor(getTestTree(), TreeNode(5), q: TreeNode(4))
-    XCTAssertEqual(result?.val, 5)
+    
+    // [3,5,1,6,2,0,8,null,null,7,4]
+    let root = TreeNode(3)
+    let nodeTwo = TreeNode(2)
+    nodeTwo.left = TreeNode(7)
+    let nodeFour = TreeNode(4)
+    nodeTwo.right = nodeFour
+    
+    let nodeFive = TreeNode(5)
+    nodeFive.left = TreeNode(6)
+    nodeFive.right = nodeTwo
+    
+    let nodeOne = TreeNode(1)
+    nodeOne.left = TreeNode(0)
+    nodeOne.right = TreeNode(8)
+    
+    root.left = nodeFive
+    root.right = nodeOne
+    
+    let result = lowestCommonAncestor(root, nodeFive, nodeFour)
+    XCTAssertTrue(result === nodeFive)
   }
   
   
