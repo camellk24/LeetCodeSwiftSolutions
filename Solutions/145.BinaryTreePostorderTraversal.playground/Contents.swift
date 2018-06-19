@@ -36,11 +36,7 @@
  
  */
 
-/*:
- **Time Complexity:** O(n)
- 
- **Space Complexity:** O(n)
- */
+
 
 
 // Definition for a binary tree node.
@@ -55,43 +51,85 @@ public class TreeNode {
   }
 }
 
+/*:
+ **Time Complexity:** O(n)
+ 
+ **Space Complexity:** O(n)
+ */
 
-
-func preorderTraversal(_ root: TreeNode?) -> [Int] {
-  
-  guard let root = root else { return [] }
-  
-  var stack: [TreeNode] = []
-  var result: [Int] = []
-  
-  stack.append(root)
-  
-  while !stack.isEmpty {
+class IterativeSolution {
+  func postorderTraversal(_ root: TreeNode?) -> [Int] {
     
-    let node = stack.removeLast()
-    result.append(node.val)
+    guard let root = root else { return [] }
     
-    if let rightNode = node.right {
-      stack.append(rightNode)
+    var stack1: [TreeNode] = []
+    var stack2: [TreeNode] = []
+    var result: [Int] = []
+    
+    stack1.append(root)
+    
+    while (!stack1.isEmpty) {
+      
+      let node = stack1.removeLast()
+      
+      stack2.append(node)
+      
+      if let leftNode = node.left {
+        stack1.append(leftNode)
+      }
+      
+      if let rightNode = node.right {
+        stack1.append(rightNode)
+      }
+      
     }
     
-    if let leftNode = node.left {
-      stack.append(leftNode)
+    while (!stack2.isEmpty) {
+      
+      let node = stack2.removeLast()
+      result.append(node.val)
     }
+    
+    return result
     
   }
-  
-  return result
-  
 }
 
+/*:
+ **Time Complexity:** O(n)
+ 
+ **Space Complexity:** O(n)
+ */
+
+class RecursiveSolution {
+  
+  func postorderTraversal(_ root: TreeNode?) -> [Int] {
+    guard let root = root else {
+      return []
+    }
+    
+    var result = [Int]()
+    traverse(root, &result)
+    return result
+  }
+  
+  
+  func traverse(_ root: TreeNode?, _ result: inout [Int]) {
+    guard let root = root else {
+      return
+    }
+    traverse(root.left, &result)
+    traverse(root.right, &result)
+    result.append(root.val)
+  }
+}
 
 /*:
  ## Test
  */
 import XCTest
 
-class TestBinaryTreePreorderTraversal: XCTestCase {
+class TestBinaryTreePostorderTraversal: XCTestCase {
   
   func getTestTree() -> TreeNode {
     // [1,null,2,3]
@@ -103,12 +141,15 @@ class TestBinaryTreePreorderTraversal: XCTestCase {
     return root
   }
   
-  func testBinaryTreePreorderTraversal() {
-    let result = preorderTraversal(getTestTree())
-    XCTAssertEqual(result, [1, 2, 3])
+  func testBinaryTreePostorderTraversal() {
+    let iterativeSol = IterativeSolution().postorderTraversal(getTestTree())
+    let recursiveSol = RecursiveSolution().postorderTraversal(getTestTree())
+    XCTAssertEqual(iterativeSol, [3, 2, 1])
+    XCTAssertEqual(recursiveSol, [3, 2, 1])
   }
-  
   
 }
 
-TestBinaryTreePreorderTraversal.defaultTestSuite.run()
+TestBinaryTreePostorderTraversal.defaultTestSuite.run()
+
+
