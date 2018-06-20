@@ -47,37 +47,39 @@ class Solution {
     
     var queue: [(x: Int, y: Int)] = []
     
-    // iterate through all elements
+    // iterate through all matrix to find gates
+    
     for y in 0 ..< rooms.count {
       for x in 0 ..< rooms[0].count {
-        // we find any gates, add to queue
+        // if gates found, add to queue
         if rooms[y][x] == 0 {
           queue.append((x, y))
         }
       }
     }
     
-    bfs(&rooms, &queue)
-  }
-  
-  private func bfs(_ rooms: inout [[Int]], _ queue: inout [(x: Int, y: Int)]) {
+    let deltaX = [0, 0, 1, -1]
+    let deltaY = [1, -1, 0, 0]
     
-    let deltaX = [-1, 1, 0, 0]
-    let deltaY = [0, 0, -1, 1]
     let cols = rooms[0].count
     let rows = rooms.count
     
+    // bfs
     while (!queue.isEmpty) {
       
       let coordinate = queue.removeFirst()
+      
       let x = coordinate.x
       let y = coordinate.y
+      
       for i in 0...3 {
         
-        let newX = deltaX[i] + x
-        let newY = deltaY[i] + y
+        let newX = x + deltaX[i]
+        let newY = y + deltaY[i]
         
-        if !isInBound(newX, newY, cols, rows) || rooms[newY][newX] <= rooms[y][x] {
+        // check new coordinate inside matrix
+        // check new coordinate greater than old coordinate + 1
+        if !isInBound(newX, newY, cols, rows) || rooms[newY][newX] <= rooms[y][x] + 1 {
           continue
         }
         
@@ -88,10 +90,10 @@ class Solution {
     
   }
   
-  
   private func isInBound(_ x: Int, _ y: Int, _ cols: Int, _ rows: Int) -> Bool {
     return x >= 0 && x < cols && y >= 0 && y < rows
   }
+  
 }
 
 /*:
