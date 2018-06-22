@@ -31,18 +31,20 @@ func moveZeroes(_ nums: inout [Int]) {
 class Solution {
   func moveZeroes(_ nums: inout [Int]) {
     
-    var i = 0
     var j = 0
     
-    while (j < nums.count) {
-      if nums[j] != 0 {
-        let temp = nums[i]
-        nums[i] = nums[j]
-        nums[j] = temp
-        i += 1
+    for i in 0 ..< nums.count {
+      while j < nums.count && nums[j] == 0 {
+        j += 1
       }
       
-      j += 1
+      if j < nums.count && nums[i] == 0 {
+        let temp = nums[j]
+        nums[j] = nums[i]
+        nums[i] = temp
+      }
+      
+      j+=1
     }
   }
 }
