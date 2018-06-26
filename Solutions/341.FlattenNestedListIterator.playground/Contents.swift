@@ -20,8 +20,6 @@
 
 /*:
  
- **Time Complexity:** O(n)
- 
  **Space Complexity:** O(n)
  
  */
@@ -34,6 +32,7 @@ public class NestedIterator {
     pushNestedArrayToStack(nestedArray)
   }
   
+  // Time Complexity: O(1)
   public func next() -> Int? {
     if hasNext() {
       return stack.removeLast() as? Int
@@ -42,6 +41,7 @@ public class NestedIterator {
     }
   }
   
+  // Time Complexity: O(n)
   public func hasNext() -> Bool {
     while let _ = stack.last as? [Any] {
       pushNestedArrayToStack(stack.removeLast() as! [Any])
