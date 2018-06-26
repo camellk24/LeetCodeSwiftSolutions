@@ -66,7 +66,6 @@ func inorderTraversal(_ root: TreeNode?) -> [Int] {
   var testNode: TreeNode? = root
   
   while (testNode != nil || !stack.isEmpty) {
-    
     if let node = testNode {
       stack.append(node)
       testNode = node.left
@@ -75,8 +74,6 @@ func inorderTraversal(_ root: TreeNode?) -> [Int] {
       result.append(node.val)
       testNode = node.right
     }
-    
-    
   }
   
   return result

@@ -40,25 +40,25 @@ public class NestedIterator {
   
   public func next() -> Int? {
     if hasNext() {
-      let next = stack.popLast() as? Int
-      return next
+      return stack.removeLast() as? Int
+    } else {
+      return nil
     }
-    return nil
   }
   
   public func hasNext() -> Bool {
-    // if pop item is array, then push to stack
     while let _ = stack.last as? [Any] {
-      let popItem = (stack.popLast() as? [Any])!
-      pushNestedArrayToStack(popItem)
+      pushNestedArrayToStack(stack.removeLast() as! [Any])
     }
     return !stack.isEmpty
   }
   
   private func pushNestedArrayToStack(_ nestedArray: [Any]) {
-    // add element to stack reversely
-    // e.g nestedArray: [[1, 2], 3, [4, 5]]
-    // stack: [[4, 5], 3. [1, 2]]
+    
+    //    // add element to stack reversely
+    //    // e.g nestedArray: [[1, 2], 3, [4, 5]]
+    //    // stack: [[4, 5], 3. [1, 2]]
+    
     var i = nestedArray.count - 1
     while i >= 0 {
       stack.append(nestedArray[i])
