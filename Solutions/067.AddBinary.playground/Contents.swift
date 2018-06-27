@@ -68,10 +68,6 @@ class Solution {
     return char == "0" ? 0 : 1
   }
   
-  private func getChar(from binary: Int) -> Character {
-    return binary == 0 ? "0" : "1"
-  }
-  
 }
 
 /*:
