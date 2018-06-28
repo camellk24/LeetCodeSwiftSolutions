@@ -45,19 +45,22 @@ class Solution {
     
     var node: ListNode? = dummyNode
     
-    // node -> n1 -> n2 -> ...
-    while (node?.next != nil && node?.next?.next != nil) {
-      let n1 = node!.next!
-      let n2 = n1.next!
-      let temp = n2.next
-      // node -> n1 -> n2 -> n3(temp) -> n4
+    while node != nil && node?.next != nil && node?.next?.next != nil  {
       
-      node!.next = n2
-      n2.next = n1
-      n1.next = temp
-      node = n1
-      //  -> n2 -> n1(node) -> n3 -> n4
+      // n1 -> n2 -> n3 ->
+      
+      let n1 = node!
+      let n2 = n1.next!
+      let n3 = n2.next!
+      let temp: ListNode? = n3.next
+      
+      n1.next = n3
+      n3.next = n2
+      n2.next = temp
+      
+      node = n2
     }
+    
     
     return dummyNode.next
   }
