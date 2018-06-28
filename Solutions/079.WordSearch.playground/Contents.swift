@@ -40,26 +40,27 @@
  */
 
 class Solution {
+  
   func exist(_ board: [[Character]], _ word: String) -> Bool {
     
     guard board.count > 0 else {
       return false
     }
     
-    if word.isEmpty {
+    let chars = Array(word)
+    
+    guard chars.count > 0 else {
       return true
     }
     
-    let wordChars = Array(word)
     
     var mutableBoard = board
     
     for y in 0 ..< board.count {
       for x in 0 ..< board[0].count {
-        if board[y][x] == wordChars[0] && dfs(&mutableBoard, wordChars, 0, x, y) {
+        if board[y][x] == chars[0] && dfs(&mutableBoard, chars, 0, x, y) {
           return true
         }
-        
       }
     }
     
@@ -67,44 +68,49 @@ class Solution {
     
   }
   
-  private func dfs(_ board: inout [[Character]], _ wordCharacters: [Character], _ wordIndex: Int, _ x: Int, _ y: Int) -> Bool {
+  private func dfs(_ board: inout [[Character]], _ chars: [Character], _ index: Int, _ x: Int, _ y: Int) -> Bool {
     
-    // if word index greater than index, means all char get tested, return true
-    if wordIndex == wordCharacters.count {
+    // check word index
+    if index == chars.count {
       return true
     }
     
-    let rows = board[0].count
-    let cols = board.count
+    let rows = board.count
+    let cols = board[0].count
     
-    // out of bound
-    if isOutOfBound(x, y, rows, cols) {
+    // check out of bound
+    if !isInBound(x, y, cols, rows) {
       return false
     }
     
-    let testChar = wordCharacters[wordIndex]
+    let testChar = chars[index]
     let currChar = board[y][x]
     
-    if currChar != testChar {
+    // check test char
+    if testChar != currChar {
       return false
     }
     
-    board[y][x] = "#" // mark as visiter
+    // mark as visited
+    board[y][x] = "#"
     
-    
-    let found = dfs(&board, wordCharacters, wordIndex + 1, x + 1, y) ||
-      dfs(&board, wordCharacters, wordIndex + 1, x - 1, y) ||
-      dfs(&board, wordCharacters, wordIndex + 1, x, y + 1) ||
-      dfs(&board, wordCharacters, wordIndex + 1, x, y - 1)
+    let result =
+      dfs(&board, chars, index + 1, x + 1, y) ||
+      dfs(&board, chars, index + 1, x, y + 1) ||
+      dfs(&board, chars, index + 1, x - 1, y) ||
+      dfs(&board, chars, index + 1, x, y - 1)
     
     // backtrace
     board[y][x] = currChar
-    return found
+    
+    
+    return result
   }
   
-  private func isOutOfBound(_ x: Int, _ y: Int, _ rows: Int, _ cols: Int) -> Bool {
-    return x < 0 || x >= rows || y < 0 || y >= cols
+  private func isInBound(_ x: Int, _ y: Int, _ cols: Int, _ rows: Int) -> Bool {
+    return x >= 0 && x < cols && y >= 0 && y < rows
   }
+  
 }
 
 /*:
@@ -125,17 +131,24 @@ class TestWordSearch: XCTestCase {
     let result = solution.exist(board, "ABCCED")
     XCTAssertTrue(result)
   }
-  
+
   func testWordSearch2() {
     let solution = Solution()
     let result = solution.exist(board, "SEE")
     XCTAssertTrue(result)
   }
-  
+
   func testWordSearch3() {
     let solution = Solution()
     let result = solution.exist(board, "ABCB")
     XCTAssertFalse(result)
+  }
+  
+  func testWordSearch4() {
+    let testBoard: [[Character]] = [["b", "b"], ["a", "b"], ["b", "a"]]
+    let solution = Solution()
+    let result = solution.exist(testBoard, "a")
+    XCTAssertTrue(result)
   }
   
   
