@@ -22,9 +22,9 @@
 
 /*:
  
- **Time Complexity:**
+ **Time Complexity:** O(amount * coins)
  
- **Space Complexity:**
+ **Space Complexity:** O(amount)
  
  */
 class Solution {
