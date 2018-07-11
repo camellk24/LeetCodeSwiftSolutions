@@ -99,8 +99,6 @@ class Solution_Rolling_Array {
       return 0
     }
     
-//    let defaultRow = Array(repeating: Int.max, count: n + 1)
-    
     let defaultRow = Array(repeating: Int.max, count: 2)
     
     // 2D array to record when last digit is 1 or 0, least number of flips
