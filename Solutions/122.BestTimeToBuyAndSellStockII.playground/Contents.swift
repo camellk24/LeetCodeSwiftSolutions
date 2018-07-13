@@ -34,7 +34,7 @@
 
 /*:
  
- DP
+ Greedy
  
  **Time Complexity:** O(n)
  
