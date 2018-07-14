@@ -119,6 +119,7 @@ class Solution_No_Rolling {
     let n = prices.count
     
     // day 1 to day 5
+    // 开序列型动态规划，不需要判断两种情况
     let days: [Int] = Array(repeating: Int.min, count: 6)
     var f: [[Int]] = Array(repeating: days, count: n + 1)
     
