@@ -34,7 +34,63 @@
 
 /*:
  
- DP - State Machine
+ DP - State Machine 1
+ 
+ https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/discuss/108870/Most-consistent-ways-of-dealing-with-the-series-of-stock-problems
+ 
+ **Time Complexity:** O(n)
+ 
+ **Space Complexity:** O(1)
+ 
+ */
+
+
+class Solution_State_Machine1 {
+  func maxProfit(_ prices: [Int]) -> Int {
+    guard prices.count > 0 else {
+      return 0
+    }
+    
+    let n = prices.count
+    
+    // i is 1 ... n
+    // s1: T[i][2][0] at ith day, 2 trans allowed, we have 0 stock at the end of day (prev stock sold, or no stock previously)
+    // s2: T[i][2][1] at ith day, 2 trans allowed, we have 1 stock at the end of day (hold stock, or buy stock)
+    // s3: T[i][1][0] at ith day, 1 trans allowed, we have 0 stock at the end of day (prev stock sold, or no stock previously)
+    // s4: T[i][1][1] at ith day, 1 trans allowed, we have 0 stock at the end of day (hold stock, or buy stock)
+    
+    // Initialization
+    
+    // s1 -> T[0][2][0] = 0, no stock hold
+    var s1 = 0
+    
+    // s2 -> T[0][2][1] = -inf, with stock but not able to sell
+    var s2 = Int.min
+    
+    // s3 -> T[0][1][0] = 0
+    var s3 = 0
+    
+    // s4 -> -inf
+    var s4 = Int.min
+    
+    for i in 0 ..< n {
+      
+      let price = prices[i]
+      
+      // Recurrence Relation
+      s1 = max(s1, s2 + price)
+      s2 = max(s2, s3 - price)
+      s3 = max(s3, s4 + price)
+      s4 = max(s4, -price)
+    }
+    
+    return s1
+  }
+}
+
+/*:
+ 
+ DP - State Machine 2
  
  https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/discuss/149383/Easy-DP-solution-using-state-machine-O(n)-time-complexity-O(1)-space-complexity
  
@@ -44,7 +100,7 @@
  
  */
 
-class Solution {
+class Solution_State_Machine2 {
   func maxProfit(_ prices: [Int]) -> Int {
     
     guard prices.count > 0 else {
@@ -236,8 +292,11 @@ class TestBestTimeToSellStockIII: XCTestCase {
   func testBestTimeToSellStockII1() {
     let prices = [3,3,5,0,0,3,1,4]
     
-    let solution = Solution()
-    let result = solution.maxProfit(prices)
+    let solution_state_machine_1 = Solution_State_Machine1()
+    let result_state_matchine_1 = solution_state_machine_1.maxProfit(prices)
+    
+    let solution_state_machine_2 = Solution_State_Machine2()
+    let result_state_matchine_2 = solution_state_machine_2.maxProfit(prices)
     
     let solution_no_rolling = Solution_No_Rolling()
     let result_no_rolling = solution_no_rolling.maxProfit(prices)
@@ -245,7 +304,8 @@ class TestBestTimeToSellStockIII: XCTestCase {
     let solution_rolling = Solution_Rolling()
     let result_rolling = solution_rolling.maxProfit(prices)
     
-    XCTAssertEqual(result, 6)
+    XCTAssertEqual(result_state_matchine_1, 6)
+    XCTAssertEqual(result_state_matchine_2, 6)
     XCTAssertEqual(result_no_rolling, 6)
     XCTAssertEqual(result_rolling, 6)
   }
@@ -253,8 +313,11 @@ class TestBestTimeToSellStockIII: XCTestCase {
   func testBestTimeToSellStockII2() {
     let prices = [1,2,3,4,5]
     
-    let solution = Solution()
-    let result = solution.maxProfit(prices)
+    let solution_state_machine_1 = Solution_State_Machine1()
+    let result_state_matchine_1 = solution_state_machine_1.maxProfit(prices)
+    
+    let solution_state_machine_2 = Solution_State_Machine2()
+    let result_state_matchine_2 = solution_state_machine_2.maxProfit(prices)
 
     let solution_no_rolling = Solution_No_Rolling()
     let result_no_rolling = solution_no_rolling.maxProfit(prices)
@@ -262,7 +325,8 @@ class TestBestTimeToSellStockIII: XCTestCase {
     let solution_rolling = Solution_Rolling()
     let result_rolling = solution_rolling.maxProfit(prices)
 
-    XCTAssertEqual(result, 4)
+    XCTAssertEqual(result_state_matchine_1, 4)
+    XCTAssertEqual(result_state_matchine_2, 4)
     XCTAssertEqual(result_no_rolling, 4)
     XCTAssertEqual(result_rolling, 4)
   }
@@ -270,8 +334,11 @@ class TestBestTimeToSellStockIII: XCTestCase {
   func testBestTimeToSellStockII3() {
     let prices = [7,6,4,3,1]
     
-    let solution = Solution()
-    let result = solution.maxProfit(prices)
+    let solution_state_machine_1 = Solution_State_Machine1()
+    let result_state_matchine_1 = solution_state_machine_1.maxProfit(prices)
+    
+    let solution_state_machine_2 = Solution_State_Machine2()
+    let result_state_matchine_2 = solution_state_machine_2.maxProfit(prices)
 
     let solution_no_rolling = Solution_No_Rolling()
     let result_no_rolling = solution_no_rolling.maxProfit(prices)
@@ -279,7 +346,8 @@ class TestBestTimeToSellStockIII: XCTestCase {
     let solution_rolling = Solution_Rolling()
     let result_rolling = solution_rolling.maxProfit(prices)
 
-    XCTAssertEqual(result, 0)
+    XCTAssertEqual(result_state_matchine_1, 0)
+    XCTAssertEqual(result_state_matchine_2, 0)
     XCTAssertEqual(result_no_rolling, 0)
     XCTAssertEqual(result_rolling, 0)
   }
