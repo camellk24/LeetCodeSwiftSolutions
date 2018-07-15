@@ -46,6 +46,8 @@ class Solution {
     for i in 1 ..< prices.count {
       let price = prices[i]
       cash = max(cash, hold + price - fee)
+      
+      // NOTE: We can transform cash first without using temporary variables because selling and buying on the same day can't be better than just continuing to hold the stock.
       hold = max(hold, cash - price)
     }
     
