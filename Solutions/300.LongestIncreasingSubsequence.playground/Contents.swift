@@ -64,6 +64,15 @@ class Solution {
   }
 }
 
+/*:
+ 
+ DP + Binary Search
+ 
+ **Time Complexity:** O(nlog(n))
+ 
+ **Space Complexity:** O(n)
+ 
+ */
 class Solution_Binary_Search {
   func lengthOfLIS(_ nums: [Int]) -> Int {
     
@@ -107,7 +116,6 @@ class Solution_Binary_Search {
   ///   - target:
   /// - Returns:
   private func binarySearch(_ nums: [Int], _ target: Int) -> Int {
-    
     var start = 0
     var end = nums.count - 1
     
