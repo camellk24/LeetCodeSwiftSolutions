@@ -168,6 +168,20 @@ class TestLongestIncreasingSubsequence: XCTestCase {
     XCTAssertEqual(result_binary_search, 6)
   }
   
+  func testLongestIncreasingSubsequence3() {
+    
+    let input = [1,1]
+    
+    let solution = Solution()
+    let result = solution.lengthOfLIS(input)
+    
+    let solution_binary_search = Solution_Binary_Search()
+    let result_binary_search = solution_binary_search.lengthOfLIS(input)
+    
+    XCTAssertEqual(result, 1)
+    XCTAssertEqual(result_binary_search, 1)
+  }
+  
   
   
 }
