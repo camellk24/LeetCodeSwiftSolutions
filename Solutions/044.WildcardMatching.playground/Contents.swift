@@ -172,7 +172,7 @@ class Solution_No_Rolling_Array {
           continue
         }
         
-        if i > 0 && j > 0 && (sChars[i-1] == pChars[j-1] || pChars[j-1] == "?") {
+        if i > 0 && (sChars[i-1] == pChars[j-1] || pChars[j-1] == "?") {
           f[i][j] = f[i-1][j-1]
         } else if pChars[j-1] == "*" {
           if i > 0 {
