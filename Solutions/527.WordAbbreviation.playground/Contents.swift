@@ -26,9 +26,9 @@
 
 /*:
  
- Time Complexity:
+ Time Complexity: O(nL)
  
- Space Complexity:
+ Space Complexity: O(n)
  
  */
 
