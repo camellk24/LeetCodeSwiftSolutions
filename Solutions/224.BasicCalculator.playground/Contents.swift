@@ -31,6 +31,8 @@
  
  Stack
  
+ reference: http://www.cnblogs.com/grandyang/p/4570699.html
+ 
  **Time Complexity:** O(n)
  
  **Space Complexity:** O(n)
