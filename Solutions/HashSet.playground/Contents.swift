@@ -34,18 +34,33 @@ struct HashSet<T: Hashable> {
     self.dict = dict
   }
   
+  
+  /// Time complexity - O(1)
+  ///
+  /// - Parameter element:
   public mutating func insert(_ element: T) {
     dict[element] = true
   }
   
+  /// Time complexity - O(1)
+  ///
+  /// - Parameter element: <#element description#>
   public mutating func remove(_ element: T) {
     dict[element] = nil
   }
   
+  /// Time Complexity O(1)
+  ///
+  /// - Parameter element:
+  /// - Returns:
   public func contains(_ element: T) -> Bool {
     return dict[element] != nil
   }
   
+  /// Time Complexity - O(m + n), m is count of self, n is count of other set
+  ///
+  /// - Parameter otherSet:
+  /// - Returns:
   public func union(_ otherSet: HashSet<T>) -> HashSet<T> {
     
     var combined = HashSet<T>()
@@ -66,6 +81,10 @@ struct HashSet<T: Hashable> {
     return combined
   }
   
+  /// Time Complexity - O(min(m, n)), smaller length of m, n
+  ///
+  /// - Parameter otherSet:
+  /// - Returns:
   public func interset(_ otherSet: HashSet<T>) -> HashSet<T> {
     var intersection = HashSet<T>()
     
@@ -86,6 +105,10 @@ struct HashSet<T: Hashable> {
     return intersection
   }
   
+  /// Time Complexity - O(n), n is input set length
+  ///
+  /// - Parameter otherSet:
+  /// - Returns: 
   public func difference(_ otherSet: HashSet<T>) -> HashSet<T> {
     var difference = HashSet<T>()
     for element in self.dict.keys {
