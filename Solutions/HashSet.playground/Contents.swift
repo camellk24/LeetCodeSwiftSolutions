@@ -131,7 +131,7 @@ struct HashSet<T: Hashable> {
  */
 import XCTest
 
-class TestSortIntegers: XCTestCase {
+class TestHashSet: XCTestCase {
   
   func testSetInsertAndRemove() {
     var set = HashSet<String>()
@@ -212,4 +212,4 @@ class TestSortIntegers: XCTestCase {
   
 }
 
-TestSortIntegers.defaultTestSuite.run()
+TestHashSet.defaultTestSuite.run()
