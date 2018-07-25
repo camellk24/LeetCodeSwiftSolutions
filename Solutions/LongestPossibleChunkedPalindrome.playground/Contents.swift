@@ -39,49 +39,47 @@
 class Solution {
   
   func countChunk(_ s: String) -> Int {
-  
+
     guard s.count > 0 else {
       return 0
     }
-    
+
     var count = 0
     var fastL = 0
     var fastR = s.count - 1
     var slowL = 0
     var slowR = fastR
-    
+
     while fastL < fastR {
       let chunkL = substring(s, slowL, fastL + 1)
       let chunkR = substring(s, fastR, slowR + 1)
-      
+
       fastL += 1
       fastR -= 1
-      
+
       if chunkL == chunkR {
         count += 2
         slowL = fastL
         slowR = fastR
       }
     }
-    
+
     // check remaining string
-    
-    if fastL == fastR {
-      // odd number of string, one last string uncheck
-      count += 1
-    } else if slowL < slowR {
-      // no equal string found, chunk will be it's own
+    if (fastL == fastR) || (slowL < slowR) {
+      // odd number of string, one last string uncheck - e.g. volvo
+      // no match substring - merchant
       count += 1
     }
 
     return count
   }
-  
+
   private func substring(_ s: String, _ lowerBound: Int, _ upperBound: Int) -> String {
     let lowerBoundIndex = s.index(s.startIndex, offsetBy: lowerBound)
     let upperBoundIndex = s.index(s.startIndex, offsetBy: upperBound)
     return String(s[lowerBoundIndex ..< upperBoundIndex])
   }
+  
 }
 
 /*:
