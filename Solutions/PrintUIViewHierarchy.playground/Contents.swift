@@ -2,6 +2,12 @@
 /*:
  # Print UIView Hierarchy
  
+references:
+https://www.glassdoor.com/Interview/print-hierarchy-of-a-uiview-QTN_1963734.htm
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=306760&highlight=ios,
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=435012&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3088%5D%5Bvalue%5D%3D10%26searchoption%5B3088%5D%5Btype%5D%3Dradio%26searchoption%5B3046%5D%5Bvalue%5D%3D1%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311,
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=433733&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3088%5D%5Bvalue%5D%3D10%26searchoption%5B3088%5D%5Btype%5D%3Dradio%26searchoption%5B3046%5D%5Bvalue%5D%3D1%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+
  
  **Implement below function**
  
