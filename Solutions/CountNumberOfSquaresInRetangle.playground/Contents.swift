@@ -1,9 +1,14 @@
 
 /*:
  # Count number of squares in a rectangle
+ 
+ Reference: https://www.geeksforgeeks.org/count-number-of-squares-in-a-rectangle/
  */
 
 /*:
+ 
+ Solution Reference: http://www.1point3acres.com/bbs/thread-166839-1-1.html
+ 
  **Time Complexity:** O(min(m, n))
  
  **Space Complexity:** O(1)
