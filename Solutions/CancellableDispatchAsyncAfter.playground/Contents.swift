@@ -29,8 +29,8 @@ class DispatchWorkItemSolution {
 class CustomDispatchWorkItemSolution {
 
   func customCancellableDispatchAsyncAfter(_ queue: DispatchQueue, _ dispatchTime: DispatchTime, _ execution: @escaping () -> ()) -> CancellableExecutionItem {
-    let customWorkItem = CancellableExecutionItem(queue, dispatchTime, execution)
-    customWorkItem.execute()
+    let customWorkItem = CancellableExecutionItem(queue, dispatchTime)
+    customWorkItem.execute(execution)
     return customWorkItem
   }
   
@@ -40,20 +40,17 @@ class CancellableExecutionItem {
   
   let queue: DispatchQueue
   let dispatchTime: DispatchTime
-  let execution: () -> ()
-  
   var isCancelled: Bool = false
   
-  init(_ dispatchQueue: DispatchQueue, _ dispatchTime: DispatchTime, _ execution: @escaping () -> ()) {
+  init(_ dispatchQueue: DispatchQueue, _ dispatchTime: DispatchTime) {
     self.queue = dispatchQueue
     self.dispatchTime = dispatchTime
-    self.execution = execution
   }
   
-  func execute() {
+  func execute(_ block: @escaping () -> ()) {
     let controllableBlock = {
       if !self.isCancelled {
-        self.execution()
+        block()
       }
     }
     queue.asyncAfter(deadline: dispatchTime, execute: controllableBlock)

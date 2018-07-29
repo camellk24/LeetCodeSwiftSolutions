@@ -22,11 +22,11 @@ class Solution {
     case let dict as [String : Any]:
       result.append("{")
       var commaCount = dict.count - 1
-      for (_key, value) in dict {
-        result.append("\"\(_key)\": ")
+      for (key, value) in dict {
+        result.append("\"\(key)\":")
         toString(value, &result)
         if commaCount > 0 {
-          result.append(", ")
+          result.append(",")
         }
         commaCount -= 1
       }
@@ -37,7 +37,7 @@ class Solution {
       for item in array {
         toString(item, &result)
         if commaCount > 0 {
-          result.append(", \n")
+          result.append(",")
         }
         commaCount -= 1
       }
@@ -51,6 +51,7 @@ class Solution {
     case let boolValue as Bool:
       result.append("\(boolValue)")
     default:
+      // TODO: Throw error, remove key, pair
       break
     }
   }
