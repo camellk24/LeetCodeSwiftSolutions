@@ -32,26 +32,25 @@
 
 class Solution {
   func summaryRanges(_ nums: [Int]) -> [String] {
-    guard nums.count > 0 else {
-      return []
-    }
-    
     let n = nums.count
+    var i = 0
     var result: [String] = []
     
-    var i = 0
     while i < n {
       var j = 1
-      while i + j < n && nums[i+j] - nums[i] == j  {
+      
+      while i + j < n && nums[i + j] - nums[i] == j {
         j += 1
       }
       
-      let summary = j == 1 ? "\(nums[i])" : "\(nums[i])->\(nums[i+j-1])"
-      result.append(summary)
+      if j == 1 {
+        result.append("\(nums[i])")
+      } else {
+        result.append("\(nums[i])->\(nums[i + j - 1])")
+      }
       
-      i += j
+      i = i + j
     }
-
     
     return result
   }
