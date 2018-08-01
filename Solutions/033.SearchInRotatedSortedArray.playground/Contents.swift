@@ -34,7 +34,7 @@
 /*:
  ## Drawing graph will help solving this problem
  
- **Time Complexity:** O(nlogn)
+ **Time Complexity:** O(logn)
  
  **Space Complexity:** O(1)
  */
