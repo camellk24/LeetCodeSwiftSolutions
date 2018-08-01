@@ -38,65 +38,55 @@
  
  **Space Complexity:** O(1)
  */
-func search(_ nums: [Int], _ target: Int) -> Int {
-  
-  // check empty input
-  if nums.count == 0 {
-    return -1
-  }
-  
-  var start = 0
-  var end = nums.count - 1
-  let firstNumber = nums[start]
-  let lastNumber = nums[end]
-  
-  if target == firstNumber {
-    return 0
-  }
-  
-  if target == lastNumber {
-    return end
-  }
-  
-  while (start + 1 < end) {
+class Solution {
+  func search(_ nums: [Int], _ target: Int) -> Int {
     
-    let mid = (end - start) / 2 + start
-    let midNumber = nums[mid]
+    let n = nums.count
     
-    if midNumber == target {
-      return mid
+    guard n > 0 else {
+      return -1
     }
     
-    if midNumber > firstNumber {
-      if midNumber > target {
-        if target > firstNumber {
-          end = mid
-        } else {
-          start = mid
-        }
-      } else {
-        start = mid
-      }
-    } else {
-      if midNumber > target {
-        end = mid
-      } else {
-        if target > lastNumber {
-          end = mid
-        } else {
-          start = mid
-        }
-      }
+    let lastNum = nums[n-1]
+    
+    if lastNum == target {
+      return n - 1
+    }
+    
+    var start = 0
+    var end = n - 1
+    
+    while start + 1 < end {
       
+      let mid = (end - start) / 2 + start
+      let num = nums[mid]
+      
+      if num == target {
+        return mid
+      } else if num > target {
+        if (num > lastNum && target > lastNum) || (num < lastNum && target < lastNum) {
+          end = mid
+        } else {
+          start = mid
+        }
+      } else {
+        if (num < lastNum && target < lastNum) || (num > lastNum && target > lastNum) {
+          start = mid
+        } else {
+          end = mid
+        }
+      }
     }
-  }
-  
-  if nums[start] == target {
-    return start
-  } else if nums[end] == target {
-    return end
-  } else {
-    return -1
+    
+    if nums[start] == target {
+      return start
+    } else if nums[end] == target {
+      return end
+    } else {
+      return -1
+    }
+    
+    
   }
 }
 
@@ -110,7 +100,7 @@ class TestSearchInRotatedSortedArray: XCTestCase {
   let testArray: [Int] = [4, 5, 6, 7, 0, 1, 2]
   
   func testSearch() {
-    let result = search(testArray, 0)
+    let result = Solution().search(testArray, 0)
     XCTAssertEqual(result, 4)
   }
   
