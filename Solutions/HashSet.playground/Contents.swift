@@ -20,7 +20,11 @@
 
 struct HashSet<T: Hashable> {
   
-  var dict: [T : Bool]
+  private var dict: [T : Bool]
+  
+  public var allElements: [T] {
+    return Array(dict.keys)
+  }
   
   public var count: Int {
     return dict.count
@@ -62,22 +66,10 @@ struct HashSet<T: Hashable> {
   /// - Parameter otherSet:
   /// - Returns:
   public func union(_ otherSet: HashSet<T>) -> HashSet<T> {
-    
-    var combined = HashSet<T>()
-    
-    if otherSet.count < self.count {
-      combined = self
-      for element in otherSet.dict.keys {
-        combined.insert(element)
-      }
-    } else {
-      combined = otherSet
-      for element in self.dict.keys {
-        combined.insert(element)
-      }
+    var combined = self
+    for element in otherSet.allElements {
+      combined.insert(element)
     }
-    
-    
     return combined
   }
   
@@ -89,13 +81,13 @@ struct HashSet<T: Hashable> {
     var intersection = HashSet<T>()
     
     if otherSet.count < self.count {
-      for element in otherSet.dict.keys {
+      for element in otherSet.allElements {
         if self.contains(element) {
             intersection.insert(element)
         }
       }
     } else {
-      for element in self.dict.keys {
+      for element in dict.keys {
         if otherSet.contains(element) {
           intersection.insert(element)
         }
@@ -120,7 +112,7 @@ struct HashSet<T: Hashable> {
   }
     
   public func toSet() -> Set<T> {
-    return Set(Array(dict.keys))
+    return Set(allElements)
   }
   
 }
