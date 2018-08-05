@@ -42,7 +42,7 @@ extension Interval: Equatable {
 }
 
 /*:
- **Time Complexity:** O(nlogn)
+ **Time Complexity:** O(n)
  
  **Space Complexity:** O(1)
  */
