@@ -94,6 +94,7 @@ class Solution {
         continue
       }
       
+      // check numbers
       if let integer = getInt(from: char) {
         sum = (sum * 10 + integer)
         foundNumber = true
@@ -104,16 +105,18 @@ class Solution {
         if foundNumber {
           break
         } else {
+          // handle case "+-2"
           return 0
         }
       }
     }
     
-    
+    // check max overflow
     if sign * sum > int_max {
       return int_max
     }
     
+    // check min overflow
     if sign * sum < int_min {
       return int_min
     }
@@ -122,18 +125,30 @@ class Solution {
   }
   
   private func getInt(from char: Character) -> Int? {
-    let dict: [Character : Int] = ["1" : 1,
-                                   "2" : 2,
-                                   "3" : 3,
-                                   "4" : 4,
-                                   "5" : 5,
-                                   "6" : 6,
-                                   "7" : 7,
-                                   "8" : 8,
-                                   "9" : 9,
-                                   "0" : 0]
-    
-    return dict[char]
+    switch char {
+    case "0":
+      return 0
+    case "1":
+      return 1
+    case "2":
+      return 2
+    case "3":
+      return 3
+    case "4":
+      return 4
+    case "5":
+      return 5
+    case "6":
+      return 6
+    case "7":
+      return 7
+    case "8":
+      return 8
+    case "9":
+      return 9
+    default:
+      return nil
+    }
   }
 }
 

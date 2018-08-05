@@ -32,44 +32,38 @@
 
 class Solution {
   func isPalindrome(_ s: String) -> Bool {
-    
     guard !s.isEmpty else {
       return true
     }
     
-    let sLen = s.count
-    var sChars = Array(s.lowercased())
-    var start = 0
-    var end = sLen - 1
+    var chars = Array(s.lowercased())
     
-    while start < end {
-      while start < sLen && !isAlphaNumberic(sChars[start]) {
-        start += 1
+    var i = 0
+    var j = chars.count - 1
+    
+    while i < j {
+      
+      while i < j && !isValidChar(chars[i]) {
+        i += 1
       }
       
-      if start == sLen {
-        return true    // handle "....,,,"
+      while i < j && !isValidChar(chars[j]) {
+        j -= 1
       }
       
-      while end >= 0 && !isAlphaNumberic(sChars[end]) {
-        end -= 1
-      }
-      
-      if sChars[start] != sChars[end] {
+      if i < j && chars[i] != chars[j] {
         return false
-      } else {
-        start += 1
-        end -= 1
       }
       
+      i += 1
+      j -= 1
     }
     
-    return end <= start
-    
+    return true
   }
   
-  private func isAlphaNumberic(_ c: Character) -> Bool {
-    return (c >= "0" && c <= "9") || (c >= "a" && c <= "z")
+  private func isValidChar(_ char: Character) -> Bool {
+    return (char >= "0" && char <= "9") || (char >= "a" && char <= "z")
   }
 }
 

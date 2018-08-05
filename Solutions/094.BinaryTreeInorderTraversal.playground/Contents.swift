@@ -56,31 +56,56 @@ public class TreeNode {
 }
 
 
-
-func inorderTraversal(_ root: TreeNode?) -> [Int] {
-  
-  guard let root = root else { return [] }
-  
-  var stack: [TreeNode] = []
-  var result: [Int] = []
-  var testNode: TreeNode? = root
-  
-  while (testNode != nil || !stack.isEmpty) {
+class NonRecursiveSolution {
+  func inorderTraversal(_ root: TreeNode?) -> [Int] {
     
-    if let node = testNode {
-      stack.append(node)
-      testNode = node.left
-    } else {
-      let node = stack.removeLast()
-      result.append(node.val)
-      testNode = node.right
+    guard let root = root else { return [] }
+    
+    var stack: [TreeNode] = []
+    var result: [Int] = []
+    var testNode: TreeNode? = root
+    
+    while (testNode != nil || !stack.isEmpty) {
+      if let node = testNode {
+        stack.append(node)
+        testNode = node.left
+      } else {
+        let node = stack.removeLast()
+        result.append(node.val)
+        testNode = node.right
+      }
     }
     
+    return result
+  }
+}
+
+class RecursiveSolution {
+  func inorderTraversal(_ root: TreeNode?) -> [Int] {
+    
+    guard let root = root else {
+      return []
+    }
+    
+    var result = [Int]()
+    
+    traverse(root, &result)
+    
+    return result
     
   }
   
-  return result
-  
+  private func traverse(_ root: TreeNode?, _ result: inout [Int]) {
+    
+    guard let root = root else {
+      return
+    }
+    
+    // left -> root -> right
+    traverse(root.left, &result)
+    result.append(root.val)
+    traverse(root.right, &result)
+  }
 }
 
 
@@ -102,9 +127,10 @@ class TestBinaryTreeInorderTraversal: XCTestCase {
   }
   
   func testBinaryTreeInorderTraversal() {
-    let result = inorderTraversal(getTestTree())
-    print("result: \(result)")
-    XCTAssertEqual(result, [1, 3, 2])
+    let nonRecursiveResult = NonRecursiveSolution().inorderTraversal(getTestTree())
+    let recursiveResult = RecursiveSolution().inorderTraversal(getTestTree())
+    XCTAssertEqual(nonRecursiveResult, [1, 3, 2])
+    XCTAssertEqual(recursiveResult, [1, 3, 2])
   }
   
   

@@ -47,33 +47,39 @@ func printAllPaths(_ board: [[Int]]) -> [[Int]] {
   guard board.count > 0 else {
     return []
   }
-  var results = [[Int]]()
-  dfs(board, 0, 0, [], &results)
-  return results
+  
+  var result: [[Int]] = []
+  dfs(board, 0, 0, [], &result)
+  return result
 }
 
-private func dfs(_ board: [[Int]], _ i: Int, _ j: Int, _ path: [Int], _ results: inout [[Int]]) {
+private func dfs(_ board: [[Int]], _ x: Int, _ y: Int, _ path: [Int], _ result: inout [[Int]]) {
   
   let rows = board.count
   let cols = board[0].count
   
-  if i > rows - 1 || j > cols - 1 {
+  if x == cols || y == rows {
     return
   }
   
-  var mutablePath = path
-  mutablePath.append(board[i][j])
+  let pathValue = board[y][x]
   
-  if i == rows - 1 && j == cols - 1 {
-    results.append(mutablePath)
+  var newPath = path
+  newPath.append(pathValue)
+  
+  if x == cols - 1 && y == rows - 1 {
+    printPath(newPath)
+    result.append(newPath)
     return
   }
   
-  dfs(board, i+1, j, mutablePath, &results)
-  dfs(board, i, j+1, mutablePath, &results)
-
+  dfs(board, x + 1, y, newPath, &result)
+  dfs(board, x, y + 1, newPath, &result)
 }
 
+private func printPath(_ path: [Int]) {
+  print("path: \(path.map{ "\($0)" }.joined(separator: "->"))")
+}
 
 /*:
  ## Test

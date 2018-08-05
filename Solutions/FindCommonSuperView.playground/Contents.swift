@@ -11,38 +11,46 @@ import UIKit
 
 /*:
  
- **Time Complexity:** O(min(m, n))
+ **Time Complexity:** O(min(mh, nh))
  
- **Space Complexity:** O(min(m, n))
+ **Space Complexity:** O(min(mh, nh))
  */
 
 func findCommonSuperView(_ view1: UIView, _ view2: UIView) -> UIView? {
-  var superViewSet = Set<UIView>()
-  var testView1: UIView? = view1
-  var testView2: UIView? = view2
-  while testView1 != nil || testView2 != nil {
-    print("hit here")
-    if let foundSuperview = checkCommonSuperView(for: &testView1, in: &superViewSet) {
-      return foundSuperview
+  
+  var set = Set<UIView>()
+  var v1: UIView? = view1
+  var v2: UIView? = view2
+  
+  while v1 != nil || v2 != nil {
+    
+    if let common = findCommonSuperView(&v1, in: &set) {
+      return common
     }
-    if let foundSuperview = checkCommonSuperView(for: &testView2, in: &superViewSet) {
-      return foundSuperview
+    
+    if let common = findCommonSuperView(&v2, in: &set) {
+      return common
     }
-  }
-  return .none
-}
-
-private func checkCommonSuperView(for view: inout UIView?, in superViewSet: inout Set<UIView>) -> UIView? {
-  if let superview = view?.superview {
-    if superViewSet.contains(superview) {
-      return superview
-    } else {
-      superViewSet.insert(superview)
-      view = superview
-    }
+    
   }
   
-  return .none
+  return nil
+}
+
+
+private func findCommonSuperView(_ view: inout UIView?, in set: inout Set<UIView>) -> UIView? {
+  
+  guard let superview = view?.superview else {
+    return nil
+  }
+  
+  if set.contains(superview) {
+    return superview
+  } else {
+    set.insert(superview)
+    view = superview
+    return nil
+  }
 }
 
 

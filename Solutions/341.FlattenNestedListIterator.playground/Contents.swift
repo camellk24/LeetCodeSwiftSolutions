@@ -15,16 +15,10 @@
  
  By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,4,6].
  
- func maxDepth(_ root: TreeNode?) -> Int {
- 
- }
- 
  */
 
 
 /*:
- 
- **Time Complexity:** O(n)
  
  **Space Complexity:** O(n)
  
@@ -38,27 +32,29 @@ public class NestedIterator {
     pushNestedArrayToStack(nestedArray)
   }
   
+  // Time Complexity: O(1)
   public func next() -> Int? {
     if hasNext() {
-      let next = stack.popLast() as? Int
-      return next
+      return stack.removeLast() as? Int
+    } else {
+      return nil
     }
-    return nil
   }
   
+  // Time Complexity: O(n)
   public func hasNext() -> Bool {
-    // if pop item is array, then push to stack
     while let _ = stack.last as? [Any] {
-      let popItem = (stack.popLast() as? [Any])!
-      pushNestedArrayToStack(popItem)
+      pushNestedArrayToStack(stack.removeLast() as! [Any])
     }
     return !stack.isEmpty
   }
   
   private func pushNestedArrayToStack(_ nestedArray: [Any]) {
-    // add element to stack reversely
-    // e.g nestedArray: [[1, 2], 3, [4, 5]]
-    // stack: [[4, 5], 3. [1, 2]]
+    
+    //    // add element to stack reversely
+    //    // e.g nestedArray: [[1, 2], 3, [4, 5]]
+    //    // stack: [[4, 5], 3. [1, 2]]
+    
     var i = nestedArray.count - 1
     while i >= 0 {
       stack.append(nestedArray[i])
