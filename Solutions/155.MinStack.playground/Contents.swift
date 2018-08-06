@@ -50,45 +50,48 @@
  
  */
 
-class MinStack {
+class MinStack<T: Comparable> {
   
-  var stack: [Int]
-  var minStack: [Int]
+  // 2, 3
+  // 2
   
-  init() {
-    stack = []
-    minStack = []
-  }
+  var stack: [T] = []
+  var minStack: [T] = []
+  
   
   // O(1)
-  func push(_ num: Int) {
+  func push(_ num: T) {
     stack.append(num)
     if minStack.isEmpty {
       minStack.append(num)
     } else {
-      if num <= minStack.last! {
+      let last = minStack.last!
+      if num <= last {
         minStack.append(num)
       }
     }
   }
   
   // O(1)
-  func pop() {
+  func pop() -> T? {
+    
     if minStack.last == stack.last {
       minStack.popLast()
     }
-    stack.popLast()
+    
+    return stack.popLast()
   }
   
   // O(1)
-  func top() -> Int? {
+  func top() -> T? {
     return stack.last
   }
   
   // O(1)
-  func getMin() -> Int? {
+  func getMin() -> T? {
     return minStack.last
   }
+  
 }
 
 /*:
@@ -99,7 +102,7 @@ import XCTest
 class TestMinStack: XCTestCase {
   
   func testMinStack() {
-    let minStack = MinStack()
+    let minStack = MinStack<Int>()
     minStack.push(-2)
     minStack.push(0)
     minStack.push(-3)
