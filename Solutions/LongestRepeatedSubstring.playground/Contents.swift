@@ -22,58 +22,72 @@
 class Solution {
   func longestRepeatedSubstring(_ s: String) -> String {
     
-    var lrs = ""
+    /*
+     
+     banana
+     anana
+     nana
+     ana
+     na
+     a
+     
+     sorted
+     
+     a
+     ana
+     anana
+     banana
+     na
+     nana
+     
+     */
     
-    guard s.count > 0 else {
-      return lrs
-    }
+    var result = ""
     
-    let n = s.count
+    // build and sort
+    var suffixes: [String] = buildSuffixes(s)
     
-    // 1. create suffix array
-    var suffix: [String] = Array(repeating: "", count: n)
-    for i in 0 ..< s.count {
-      let substring = getSubstring(s, from: i)
-      suffix[i] = substring
-    }
     
-    // 2. sort suffix array
-    suffix.sort()
+    // compare longest common prefixes
     
-    // 3. iterate through suffix array and compare each pair to update longest common prefix
-    for i in 0 ..< n - 1 {
-      let lcp = longestCommonPrefix(suffix[i], suffix[i+1])
-      if lcp.count > lrs.count {
-        lrs = lcp
+    for i in 0 ..< suffixes.count - 1 {
+      let _lcp = lcp(suffixes[i], suffixes[i+1])
+      if _lcp.count > result.count {
+        result = _lcp
       }
     }
     
-    return lrs
+    return result
   }
   
-  private func longestCommonPrefix(_ s1: String, _ s2: String) -> String {
-    let minString: String = s1.count > s2.count ? s2 : s1
-    let minLen = minString.count
+  private func lcp(_ s1: String, _ s2: String) -> String {
     let chars1 = Array(s1)
     let chars2 = Array(s2)
     
+    let minLen = min(chars1.count, chars2.count)
+    
+    var result = ""
     for i in 0 ..< minLen {
       if chars1[i] != chars2[i] {
-        // to i, not i + 1, since we don't we to include the one not equal
-        return getSubstring(minString, to: i)
+        return result
       }
+      result = "\(result)\(chars1[i])"
     }
-    return minString
+    return result
   }
   
-  private func getSubstring(_ s: String, to index: Int) -> String {
-    let sIndex = s.index(s.startIndex, offsetBy: index)
-    return String(s[..<sIndex])
+  private func buildSuffixes(_ s: String) -> [String] {
+    var suffixes: [String] = []
+    for i in 0 ..< s.count {
+      let subString = getSubString(s, from: i)
+      suffixes.append(subString)
+    }
+    return suffixes.sorted(by: <)
   }
   
-  private func getSubstring(_ s: String, from index: Int) -> String {
-    let sIndex = s.index(s.startIndex, offsetBy: index)
-    return String(s[sIndex...])
+  private func getSubString(_ s: String, from index: Int) -> String {
+    let index = s.index(s.startIndex, offsetBy: index)
+    return String(s[index...])
   }
   
 }
