@@ -48,20 +48,18 @@
 
 class Solution {
   func isValid(_ s: String) -> Bool {
-    
     let chars = Array(s)
+    
     var stack: [Character] = []
     
-    for char in chars {
+    for i in 0 ..< chars.count {
+      let char = chars[i]
+      
       if isOpenP(char) {
         stack.append(char)
       } else if isCloseP(char) {
-        if let lastItem = stack.popLast() {
-          if char == ")" && lastItem != "(" {
-            return false
-          } else if char == "]" && lastItem != "[" {
-            return false
-          } else if char == "}" && lastItem != "{" {
+        if let last = stack.popLast() {
+          if !isValidPair(last, char) {
             return false
           }
         } else {
@@ -71,6 +69,19 @@ class Solution {
     }
     
     return stack.isEmpty
+    
+  }
+  
+  private func isValidPair(_ c1: Character, _ c2: Character) -> Bool {
+    if c1 == "(" && c2 != ")" {
+      return false
+    } else if c1 == "[" && c2 != "]" {
+      return false
+    } else if c1 == "{" && c2 != "}" {
+      return false
+    }
+    
+    return true
     
   }
   
