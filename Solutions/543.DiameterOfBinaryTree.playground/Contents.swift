@@ -30,7 +30,7 @@
  * }
  */
  
- func maxDepth(_ root: TreeNode?) -> Int {
+ func diameterOfBinaryTree(_ root: TreeNode?) -> Int {
  
  }
  
