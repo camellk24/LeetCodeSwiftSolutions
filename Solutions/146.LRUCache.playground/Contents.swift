@@ -53,7 +53,7 @@
 
 class Node {
   
-  var prev: Node?
+  weak var prev: Node?
   var next: Node?
   let key: Int
   var value: Int
