@@ -1,5 +1,5 @@
 /*:
- # 36. Valid Sudoku
+ # Lowest Common Ancestor in a Binary Tree | Set 2 (Using Parent Pointer)
  
  Given values of two nodes in a Binary Tree, find the Lowest Common Ancestor (LCA). It may be assumed that both nodes exist in the tree.
  
