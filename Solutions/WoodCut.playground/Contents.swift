@@ -25,9 +25,10 @@
  */
 
 /*:
- ## Drawing graph will help solving this problem
+ **Time Complexity:** O(nlog(max(Length)))
  
- **Time Complexity:** O(logn)
+ n -> nums of woods, everytime when count number of woods
+ L -> max wood length
  
  **Space Complexity:** O(1)
  */
