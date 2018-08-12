@@ -63,33 +63,30 @@ public class TreeNode {
 }
 
 class Solution {
-  
   func longestConsecutive(_ root: TreeNode?) -> Int {
-    
-    guard let root = root else {
-      return 0
-    }
-    
-    return dfs(root, root.val, 1)
+    return lc(root, nil, 0)
   }
   
-  private func dfs(_ root: TreeNode?, _ preValue: Int , _ preLen: Int) -> Int {
+  private func lc(_ root: TreeNode?, _ preValue: Int?, _ preLength: Int) -> Int {
+    
     guard let root = root else {
       return 0
     }
     
     var length = 1
     
-    if root.val - 1 == preValue {
-      length = preLen + 1
+    if let preValue = preValue, preValue + 1 == root.val {
+      length = preLength + 1
     }
     
-    let left = dfs(root.left, root.val, length)
-    let right = dfs(root.right, root.val, length)
+    let left = lc(root.left, root.val, length)
+    let right = lc(root.right, root.val, length)
     
     return max(length, max(left, right))
+    
   }
 }
+
 
 
 
