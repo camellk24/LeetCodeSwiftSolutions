@@ -94,6 +94,7 @@ class Solution {
     // 2. copy nodes
     var mapping: [UndirectedGraphNode : UndirectedGraphNode] = [:]
     for node in nodes {
+      // NOTE: here we don't want to pass neighbors to new node
       let newNode = UndirectedGraphNode(label: node.label, neighbors: [])
       mapping[node] = newNode
     }
