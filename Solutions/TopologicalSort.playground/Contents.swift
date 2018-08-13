@@ -97,7 +97,12 @@ class Solution {
       }
     }
     
-    return order
+    // check if cycle, 如果有环的话，indegree 不会降为0
+    if order.count == graph.count {
+      return order
+    } else {
+      fatalError("invalid input")
+    }
   }
   
   private func findNodeWithZeroIndegree(_ indegree: [DirectedGraphNode : Int]) -> DirectedGraphNode? {
