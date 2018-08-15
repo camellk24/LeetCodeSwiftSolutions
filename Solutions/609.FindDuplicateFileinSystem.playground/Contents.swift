@@ -26,13 +26,23 @@
  The number of files given is in the range of [1,20000].
  You may assume no files or directories share the same name in the same directory.
  You may assume each given directory info represents a unique directory. Directory path and file info are separated by a single blank space.
- Follow-up beyond contest:
  
+ https://blog.csdn.net/magicbean2/article/details/78986975
+ Follow-up beyond contest:
  - Imagine you are given a real file system, how will you search files? DFS or BFS?
+    Depends the scale of file system, if the file can be very deep, then using dfs will have a risk of stack overflow. If each folders contains a lot of subfolders, bfs might be using a lot of heap memory.
+ 
  - If the file content is very large (GB level), how will you modify your solution?
+ Then we can't use file content as key, need to use some way to compress content. e.g. convert content to md5.
+ 
  - If you can only read the file by 1kb each time, how will you modify your solution?
+ md5 each input, use array of md5 as key or md5 all md5 keys
+ 
  - What is the time complexity of your modified solution? What is the most time-consuming part and memory consuming part of it? How to optimize?
+ O(file_counts * avg_file_len)
+ 
  - How to make sure the duplicated files you find are not false positive?
+ double check result?
  
  */
 
