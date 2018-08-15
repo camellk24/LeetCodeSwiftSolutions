@@ -36,60 +36,56 @@
 
 // bfs solution is prefer over dfs, because dfs might need to deal with stack overflow issue
 class Solution_BFS {
+  
   func numIslands(_ grid: [[Character]]) -> Int {
-    
     guard grid.count > 0 else {
       return 0
     }
     
-    var numberOfIsland: Int = 0
-    var mutableGrid: [[Character]] = grid
-    for y in 0 ..< grid.count {
-      for x in 0 ..< grid[y].count {
+    var num = 0
+    var mutableGrid = grid
+    
+    for y in 0 ..< mutableGrid.count {
+      for x in 0 ..< mutableGrid[0].count {
         if mutableGrid[y][x] == "1" {
-          bfs(x: x, y: y, grid: &mutableGrid)
-          numberOfIsland += 1
+          num += 1
+          bfs(&mutableGrid, y, x)
         }
       }
     }
     
-    return numberOfIsland
-    
+    return num
   }
   
-  func bfs(x: Int, y: Int, grid: inout [[Character]]) {
+  private func bfs(_ grid: inout [[Character]], _ y: Int, _ x: Int) {
+    let rows = grid.count
+    let cols = grid[0].count
+    var queue: [(y: Int, x: Int)] = [(y, x)]
+    // grid[y][x] = "0"
     
-    let deltaX: [Int] = [1, 0, -1, 0]
-    let deltaY: [Int] = [0, 1, 0, -1]
-    
-    var queue: [(x: Int, y: Int)] = []
-    queue.append((x, y))
-    grid[y][x] = "0"
-    
-    while (!queue.isEmpty) {
+    while !queue.isEmpty {
       
       let coordinate = queue.removeFirst()
+      grid[coordinate.y][coordinate.x] = "0"
+      
+      let dy = [0, -1, 0, 1]
+      let dx = [-1, 0, 1, 0]
       
       for i in 0...3 {
-        let newX = coordinate.0 + deltaX[i]
-        let newY = coordinate.1 + deltaY[i]
+        let newY = coordinate.y + dy[i]
+        let newX = coordinate.x + dx[i]
         
-        if !isInBound(x: newX, y: newY, maxX: grid[0].count - 1, maxY: grid.count - 1) {
-          continue
-        }
-        
-        if grid[newY][newX] == "1" {
+        if isInBound(newY, newX, rows, cols) && grid[newY][newX] == "1" {
           grid[newY][newX] = "0"
-          queue.append((x: newX, y: newY))
+          queue.append((newY, newX))
         }
       }
+      
     }
-    
-    
   }
   
-  func isInBound(x: Int, y: Int, maxX: Int, maxY: Int) -> Bool {
-    return x >= 0 && y >= 0 && x <= maxX && y <= maxY
+  private func isInBound(_ y: Int, _ x: Int, _ rows: Int, _ cols: Int) -> Bool {
+    return y >= 0 && y < rows && x >= 0 && x < cols
   }
 }
 
