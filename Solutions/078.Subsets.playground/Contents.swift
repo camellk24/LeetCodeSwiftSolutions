@@ -22,18 +22,6 @@
  */
 
 /*:
- ## DFS Solution
- */
-func subsets(_ nums: [Int]) -> [[Int]] {
- 
-  var result = [[Int]]()
-  
-  dfs(nums: nums, startIndex: 0, subset: [], result: &result)
-  
-  return result
-}
-
-/*:
  ## DFS
  
  **Time Complexity:** O(n *2^n).
@@ -45,21 +33,46 @@ func subsets(_ nums: [Int]) -> [[Int]] {
  **Space Complexity:** O(n).
  
  */
-func dfs(nums: [Int], startIndex: Int, subset: [Int], result: inout [[Int]]) {
+class Solution {
+  func subsets(_ nums: [Int]) -> [[Int]] {
+    guard nums.count > 0 else {
+      return []
+    }
+    
+    var result: [[Int]] = []
+    dfs(nums, 0, [], &result)
+    return result
+  }
   
-  let sortedNums = nums.sorted(by: <)
-  
-  result.append(subset)
-  
-  if startIndex < nums.count {
+  private func dfs(_ nums: [Int], _ startIndex: Int, _ subset: [Int], _ result: inout [[Int]]) {
+    
+    result.append(subset)
+    
     for i in startIndex ..< nums.count {
       var newSubset = subset
       newSubset.append(nums[i])
-      dfs(nums: sortedNums, startIndex: i+1, subset: newSubset, result: &result)
+      dfs(nums, i + 1, newSubset, &result)
     }
+  }
+}
+
+/*:
+ ## Test
+ */
+import XCTest
+
+class TestSubsets: XCTestCase {
+  
+  func testSubsets() {
+    let input = [1, 2, 3]
+    let results = Solution().subsets(input)
+    let expected = [[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]
+    XCTAssertEqual(Set(results), Set(expected))
   }
   
 }
+
+TestSubsets.defaultTestSuite.run()
 
 
 

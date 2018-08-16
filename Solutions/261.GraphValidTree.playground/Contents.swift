@@ -22,81 +22,128 @@
  **Space Complexity:** O(n)
  */
 
-func validTree(_ n: Int, _ edges: [[Int]]) -> Bool {
-  
-  guard n > 0 else {
-    return false
-  }
-  // 判断条件：
-  // 1. n 个点需要有 n - 1 条边
-  guard n - 1 == edges.count else {
-    return false
-  }
-  
-  let graph = initializeGraph(n, edges)
-  
-  var queue: [Int] = []
-  var visitedNode = Set<Int>()
-  
-  queue.append(0)
-  visitedNode.insert(0)
-  
-  // 2. bfs 找graph 的连通性
-  while (!queue.isEmpty) {
+class Solution_BFS {
+  func validTree(_ n: Int, _ edges: [[Int]]) -> Bool {
     
-    let node = queue.removeFirst()
+    guard n > 0 else {
+      return false
+    }
     
-    if let edges = graph[node] {
+    guard edges.count + 1 == n else {
+      return false
+    }
+    
+    let graph = initGraph(n, edges)
+    
+    // bfs
+    var queue: [Int] = []
+    var visited: Set<Int> = []
+    
+    queue.append(0)
+    visited.insert(0)
+    
+    while (!queue.isEmpty) {
       
-      for neighbor in edges {
-        if visitedNode.contains(neighbor) {
-          // 此处不可以直接返回false, 因为图是undirected
+      let node = queue.removeFirst()
+      
+      for neighbor in graph[node]! {
+        if visited.contains(neighbor) {
           continue
         }
-        visitedNode.insert(neighbor)
         queue.append(neighbor)
+        visited.insert(neighbor)
       }
     }
+    
+    return visited.count == n
   }
   
-  return visitedNode.count == n
-  
+  private func initGraph(_ n: Int, _ edges: [[Int]]) -> [Int : Set<Int>] {
+    
+    var graph: [Int : Set<Int>] = [:]
+    
+    for i in 0 ..< n {
+      graph[i] = Set<Int>()
+    }
+    
+    for edge in edges {
+      
+      let u = edge[0]
+      let v = edge[1]
+      
+      if graph[u] != nil {
+        graph[u]!.insert(v)
+      } else {
+        
+      }
+      
+      if graph[v] != nil {
+        graph[v]!.insert(u)
+      }
+    }
+    
+    return graph
+  }
 }
 
-func initializeGraph(_ n: Int, _ edges: [[Int]]) -> [Int : Set<Int>] {
-  
-  var graph: [Int : Set<Int>] = [:]
-  
-  for i in 0 ..< n {
+class Solution_DFS {
+  func validTree(_ n: Int, _ edges: [[Int]]) -> Bool {
     
-    graph[i] = Set<Int>()
-    
-  }
-  
-  for i in 0 ..< edges.count {
-    
-    let u = edges[i][0]
-    let v = edges[i][1]
-    
-    if var existingSet = graph[u] {
-      existingSet.insert(v)
-      graph[u] = existingSet
-    } else {
-      let newSet: Set<Int> = [v]
-      graph[u] = newSet
+    guard n > 0 else {
+      return false
     }
     
-    if var existingSet = graph[v] {
-      existingSet.insert(u)
-      graph[v] = existingSet
-    } else {
-      let newSet: Set<Int> = [u]
-      graph[v] = newSet
+    guard edges.count + 1 == n else {
+      return false
+    }
+    
+    let graph = initGraph(n, edges)
+    
+    // dfs
+    var visited: Set<Int> = []
+    dfs(graph, 0, &visited)
+    return visited.count == n
+  }
+  
+  private func dfs(_ graph: [Int : Set<Int>], _ node: Int, _ visited: inout Set<Int>) {
+    
+    if visited.contains(node) {
+      return
+    }
+    
+    visited.insert(node)
+    
+    for neighbor in graph[node]! {
+      dfs(graph, neighbor, &visited)
     }
   }
   
-  return graph
-  
+  private func initGraph(_ n: Int, _ edges: [[Int]]) -> [Int : Set<Int>] {
+    
+    var graph: [Int : Set<Int>] = [:]
+    
+    for i in 0 ..< n {
+      graph[i] = Set<Int>()
+    }
+    
+    for edge in edges {
+      
+      let u = edge[0]
+      let v = edge[1]
+      
+      if graph[u] != nil {
+        graph[u]!.insert(v)
+      } else {
+        
+      }
+      
+      if graph[v] != nil {
+        graph[v]!.insert(u)
+      }
+    }
+    
+    return graph
+  }
 }
 
 /*:
@@ -107,13 +154,21 @@ import XCTest
 class TestValidTree: XCTestCase {
   
   func testValidTree1() {
-    let result = validTree(5, [[0, 1], [0, 2], [0, 3], [1, 4]])
-    XCTAssertTrue(result)
+    let bfsSolution = Solution_BFS()
+    let dfsSolution = Solution_DFS()
+    let bfsResult = bfsSolution.validTree(5, [[0, 1], [0, 2], [0, 3], [1, 4]])
+    let dfsResult = dfsSolution.validTree(5, [[0, 1], [0, 2], [0, 3], [1, 4]])
+    XCTAssertTrue(bfsResult)
+    XCTAssertTrue(dfsResult)
   }
   
   func testValidTree2() {
-    let result = validTree(5, [[0, 1], [1, 2], [2, 3], [1, 3], [1, 4]])
-      XCTAssertFalse(result)
+    let bfsSolution = Solution_BFS()
+    let dfsSolution = Solution_DFS()
+    let bfsResult = bfsSolution.validTree(5, [[0, 1], [1, 2], [2, 3], [1, 3], [1, 4]])
+    let dfsResult = dfsSolution.validTree(5, [[0, 1], [1, 2], [2, 3], [1, 3], [1, 4]])
+    XCTAssertFalse(bfsResult)
+    XCTAssertFalse(dfsResult)
   }
   
 }

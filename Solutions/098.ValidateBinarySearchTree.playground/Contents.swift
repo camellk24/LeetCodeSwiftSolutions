@@ -78,26 +78,20 @@ public class TreeNode {
  */
 
 func isValidBST(_ root: TreeNode?) -> Bool {
-  return helper(root, nil, nil)
+  return helper(root, Int.min, Int.max)
 }
 
-func helper(_ root: TreeNode?, _ min: Int?, _ max: Int?) -> Bool {
+func helper(_ root: TreeNode?, _ min: Int, _ max: Int) -> Bool {
   
   guard let root = root else {
     return true
   }
   
-  if let min = min, root.val <= min {
-    return false
-  }
-  
-  if let max = max, root.val >= max {
+  if root.val <= min || root.val >= max {
     return false
   }
   
   return helper(root.left, min, root.val) && helper(root.right, root.val, max)
-  
-  
 }
 
 

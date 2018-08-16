@@ -40,37 +40,38 @@
  */
 class Solution {
   func search(_ nums: [Int], _ target: Int) -> Int {
-    
-    let n = nums.count
-    
-    guard n > 0 else {
+    guard nums.count > 0 else {
       return -1
     }
     
-    let lastNum = nums[n-1]
+    let last = nums.last!
+    var start = 0
+    var end = nums.count - 1
     
-    if lastNum == target {
-      return n - 1
+    if nums[start] == target {
+      return start
     }
     
-    var start = 0
-    var end = n - 1
+    if nums[end] == target {
+      return end
+    }
     
-    while start + 1 < end {
+    while (start + 1 < end) {
       
       let mid = (end - start) / 2 + start
-      let num = nums[mid]
       
-      if num == target {
+      if nums[mid] == target {
         return mid
-      } else if num > target {
-        if (num > lastNum && target > lastNum) || (num < lastNum && target < lastNum) {
+      }
+      
+      if target > last {
+        if (nums[mid] > last && nums[mid] > target) || (nums[mid] < last) {
           end = mid
         } else {
           start = mid
         }
       } else {
-        if (num < lastNum && target < lastNum) || (num > lastNum && target > lastNum) {
+        if (nums[mid] > last) || (nums[mid] < last && nums[mid] < target) {
           start = mid
         } else {
           end = mid
@@ -85,8 +86,6 @@ class Solution {
     } else {
       return -1
     }
-    
-    
   }
 }
 

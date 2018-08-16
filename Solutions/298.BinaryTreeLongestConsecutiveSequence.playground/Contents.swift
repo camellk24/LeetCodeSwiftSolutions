@@ -62,35 +62,76 @@ public class TreeNode {
   }
 }
 
-class Solution {
-  
+/*:
+ **Time Complexity:** O(n)
+ 
+ **Space Complexity:** O(n)
+ */
+class Solution_I {
   func longestConsecutive(_ root: TreeNode?) -> Int {
-    
-    guard let root = root else {
-      return 0
-    }
-    
-    return dfs(root, root.val, 1)
+    return lc(root, nil, 0)
   }
   
-  private func dfs(_ root: TreeNode?, _ preValue: Int , _ preLen: Int) -> Int {
+  private func lc(_ root: TreeNode?, _ preValue: Int?, _ preLength: Int) -> Int {
+    
     guard let root = root else {
       return 0
     }
     
     var length = 1
     
-    if root.val - 1 == preValue {
-      length = preLen + 1
+    if let preValue = preValue, preValue + 1 == root.val {
+      length = preLength + 1
     }
     
-    let left = dfs(root.left, root.val, length)
-    let right = dfs(root.right, root.val, length)
+    let left = lc(root.left, root.val, length)
+    let right = lc(root.right, root.val, length)
     
     return max(length, max(left, right))
+    
   }
 }
 
+/*:
+ 
+ Solution II is better for doing follow up
+ 
+ **Time Complexity:** O(n)
+ 
+ **Space Complexity:** O(n)
+ */
+class Solution_II {
+  func longestConsecutive(_ root: TreeNode?) -> Int {
+    var maxLength: Int = 0
+    _ = traverse(root, &maxLength)
+    
+    return maxLength
+  }
+  
+  private func traverse(_ root: TreeNode?, _ maxLength: inout Int) -> Int {
+    
+    guard let root = root else {
+      return 0
+    }
+    
+    let leftMax = traverse(root.left, &maxLength)
+    let rightMax = traverse(root.right, &maxLength)
+    
+    var length = 1
+    
+    if let left = root.left, root.val + 1 == left.val {
+      length = max(length, leftMax + 1)
+    }
+    
+    if let right = root.right, root.val + 1 == right.val {
+      length = max(length, rightMax + 1)
+    }
+    
+    maxLength = max(length, maxLength)
+    
+    return length
+  }
+}
 
 
 
@@ -115,25 +156,31 @@ class TestBinaryTreLongestConsecutiveSequence: XCTestCase {
     node3.right = node4
     node4.right = node5
     
-    let solution = Solution()
-    let result = solution.longestConsecutive(node1)
-    XCTAssertEqual(result, 3)
+    let solution1 = Solution_I()
+    let solution2 = Solution_II()
+    let result1 = solution1.longestConsecutive(node1)
+    let result2 = solution2.longestConsecutive(node1)
+    XCTAssertEqual(result1, 3)
+    XCTAssertEqual(result2, 3)
   }
   
   func testBinaryTreLongestConsecutiveSequence2() {
-    
+
     let root = TreeNode(2)
     let node3 = TreeNode(3)
     let node2 = TreeNode(2)
     let node1 = TreeNode(1)
-    
+
     root.right = node3
     node3.left = node2
     node2.left = node1
-    
-    let solution = Solution()
-    let result = solution.longestConsecutive(root)
-    XCTAssertEqual(result, 2)
+
+    let solution1 = Solution_I()
+    let solution2 = Solution_II()
+    let result1 = solution1.longestConsecutive(root)
+    let result2 = solution2.longestConsecutive(root)
+    XCTAssertEqual(result1, 2)
+    XCTAssertEqual(result2, 2)
   }
   
   
