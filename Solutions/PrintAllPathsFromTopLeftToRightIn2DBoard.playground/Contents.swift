@@ -35,54 +35,96 @@
  */
 
 /*:
- DFS
+ DFS - for printing, dfs same more memory space, it didn't need to store any thing, just print
  
- **Time Complexity:**
+ **Time Complexity:** O(n)
  
- **Space Complexity:**
+ **Space Complexity:** O(1)
  */
 
-func printAllPaths(_ board: [[Int]]) -> [[Int]] {
-  
-  guard board.count > 0 else {
-    return []
+class Solution_DFS {
+  func printAllPaths(_ board: [[Int]]) {
+    guard board.count > 0 && board[0].count > 0 else {
+      return
+    }
+    
+    dfs(board, 0, 0, "")
   }
   
-  var result: [[Int]] = []
-  dfs(board, 0, 0, [], &result)
-  return result
-}
-
-private func dfs(_ board: [[Int]], _ y: Int, _ x: Int, _ path: [Int], _ result: inout [[Int]]) {
-  
-  let rows = board.count
-  let cols = board[0].count
-  
-  if !isInBound(y, x, rows, cols) {
-    return
+  private func dfs(_ board: [[Int]], _ y: Int, _ x: Int, _ pathString: String) {
+    
+    let rows = board.count
+    let cols = board[0].count
+    
+    if !isInBound(y, x, rows, cols) {
+      return
+    }
+    
+    let pathValue = board[y][x]
+    
+    let newPathString: String
+    if pathString == "" {
+      newPathString = "\(pathValue)"
+    } else {
+      newPathString = "\(pathString)->\(pathValue)"
+    }
+    
+    if x == cols - 1 && y == rows - 1 {
+      print(newPathString)
+      return
+    }
+    
+    dfs(board, y + 1, x, newPathString)
+    dfs(board, y, x + 1, newPathString)
   }
   
-  let pathValue = board[y][x]
+  private func isInBound(_ y: Int, _ x: Int, _ rows: Int, _ cols: Int) -> Bool {
+    return y >= 0 && y < rows && x >= 0 && x < cols
+  }
+}
+
+class Solution_BFS {
   
-  var newPath = path
-  newPath.append(pathValue)
-  
-  if x == cols - 1 && y == rows - 1 {
-    printPath(newPath)
-    result.append(newPath)
-    return
+  func printAllPaths(_ board: [[Int]]) {
+    guard board.count > 0 && board[0].count > 0 else {
+      return
+    }
+    
+    let rows = board.count
+    let cols = board[0].count
+    var queue: [(Int, Int, String)] = [(0, 0, "")]
+    
+    while !queue.isEmpty {
+      let res = queue.removeFirst()
+      let y = res.0
+      let x = res.1
+      let currPath = res.2
+      
+      if !isInBound(y, x, rows, cols) {
+        continue
+      }
+      
+      let newPath: String
+      if currPath == "" {
+        newPath = "\(board[y][x])"
+      } else {
+        newPath = "\(currPath)->\(board[y][x])"
+      }
+      
+      if y == rows - 1 && x == cols - 1 {
+        print(newPath)
+        continue
+      }
+      
+      queue.append((y + 1, x, newPath))
+      queue.append((y, x + 1, newPath))
+    }
   }
   
-  dfs(board, y + 1, x, newPath, &result)
-  dfs(board, y, x + 1, newPath, &result)
-}
-
-private func printPath(_ path: [Int]) {
-  print("path: \(path.map{ "\($0)" }.joined(separator: "->"))")
-}
-
-private func isInBound(_ y: Int, _ x: Int, _ rows: Int, _ cols: Int) -> Bool {
-  return y >= 0 && y < rows && x >= 0 && x < cols
+  private func isInBound(_ y: Int, _ x: Int, _ rows: Int, _ cols: Int) -> Bool {
+    return y >= 0 && y < rows && x >= 0 && x < cols
+  }
+  
 }
 
 /*:
@@ -98,8 +140,12 @@ class TestPrintAllPathsIn2DBoard: XCTestCase {
       [4, 5, 6],
       [7, 8, 9]
     ]
-    let result = printAllPaths(board)
-    XCTAssertEqual(result, [[1, 4, 7, 8, 9], [1, 4, 5, 8, 9], [1, 4, 5, 6, 9], [1, 2, 5, 8, 9], [1, 2, 5, 6, 9], [1, 2, 3, 6, 9]])
+    print("\ndfs solution:")
+    Solution_DFS().printAllPaths(board)
+    
+    print("\nbfs solution: \n")
+    Solution_BFS().printAllPaths(board)
+    
   }
   
 }
