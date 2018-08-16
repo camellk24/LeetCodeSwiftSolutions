@@ -53,12 +53,12 @@ func printAllPaths(_ board: [[Int]]) -> [[Int]] {
   return result
 }
 
-private func dfs(_ board: [[Int]], _ x: Int, _ y: Int, _ path: [Int], _ result: inout [[Int]]) {
+private func dfs(_ board: [[Int]], _ y: Int, _ x: Int, _ path: [Int], _ result: inout [[Int]]) {
   
   let rows = board.count
   let cols = board[0].count
   
-  if x == cols || y == rows {
+  if !isInBound(y, x, rows, cols) {
     return
   }
   
@@ -73,12 +73,16 @@ private func dfs(_ board: [[Int]], _ x: Int, _ y: Int, _ path: [Int], _ result: 
     return
   }
   
-  dfs(board, x + 1, y, newPath, &result)
-  dfs(board, x, y + 1, newPath, &result)
+  dfs(board, y + 1, x, newPath, &result)
+  dfs(board, y, x + 1, newPath, &result)
 }
 
 private func printPath(_ path: [Int]) {
   print("path: \(path.map{ "\($0)" }.joined(separator: "->"))")
+}
+
+private func isInBound(_ y: Int, _ x: Int, _ rows: Int, _ cols: Int) -> Bool {
+  return y >= 0 && y < rows && x >= 0 && x < cols
 }
 
 /*:
