@@ -58,64 +58,72 @@
 
 class Solution {
   func removeInvalidParentheses(_ s: String) -> [String] {
-    
     guard s.count > 0 else {
       return [""]
     }
-    var result: [String] = []
-    var visited: Set<String> = []
-    var queue: [String] = [s]
-    var foundValid: Bool = false
-    while !queue.isEmpty {
-      let str = queue.removeFirst()
-      if isValidParentheses(str) {
-        result.append(str)
-        foundValid = true
+    
+    var visited: Set<String> = [s]
+    var q = [s]
+    var found = false
+    var res: [String] = []
+    
+    while !q.isEmpty {
+      
+      let str = q.removeFirst()
+      let chars = Array(str)
+      
+      if isValid(chars) {
+        res.append(str)
+        found = true
       }
-      // if one solution found, continue
-      if foundValid {
+      
+      if found {
         continue
       }
       
-      let chars = Array(str)
       for i in 0 ..< chars.count {
-        if chars[i] != "(" && chars[i] != ")" {
+        let char = chars[i]
+        if char != "(" && char != ")" {
           continue
         }
-        let newStr = removingChar(at: i, for: str)
-        if !visited.contains(newStr) {
-          queue.append(newStr)
-          visited.insert(newStr)
+        
+        if let sub = removingChar(at: i, for: str) {
+          if !visited.contains(sub) {
+            q.append(sub)
+            visited.insert(sub)
+          }
         }
       }
     }
-    return result
+    
+    return res
   }
   
-  private func removingChar(at index: Int, for s: String) -> String {
-    var newStr = s
-    if let index = s.index(s.startIndex, offsetBy: index, limitedBy: s.endIndex) {
-      newStr.remove(at: index)
-    }
-    return newStr
-  }
-  
-  private func isValidParentheses(_ s: String) -> Bool {
-    var count = 0
-    let chars = Array(s)
-    for char in chars {
-      if char == "(" {
-        count += 1
-      } else if char == ")" {
-        count -= 1
-        if count < 0 {
+  private func isValid(_ chars: [Character]) -> Bool {
+    var cnt = 0
+    for c in chars {
+      if c == "(" {
+        cnt += 1
+      } else if c == ")" {
+        cnt -= 1
+        if cnt < 0 {
           return false
         }
       }
     }
-    return count == 0
+    
+    return cnt == 0
   }
   
+  private func removingChar(at i: Int, for s: String) -> String? {
+    if let index = s.index(s.startIndex, offsetBy: i, limitedBy: s.endIndex) {
+      var newStr = s
+      newStr.remove(at: index)
+      return newStr
+    } else {
+      return nil
+    }
+  }
 }
 
 
