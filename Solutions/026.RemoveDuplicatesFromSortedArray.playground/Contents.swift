@@ -61,10 +61,15 @@ class Solution {
     for j in 1 ..< nums.count {
       if nums[i] != nums[j] {
         i += 1
+        // no need to swap
         nums[i] = nums[j]
       }
     }
     
+    // O(n)
+//    print("nums: \(nums), end index : \(nums.endIndex)")
+//    nums.removeSubrange(i+1..<nums.endIndex)
+//    print(nums)
     return i + 1
   }
 }
@@ -93,6 +98,18 @@ class TestRemoveDuplicates: XCTestCase {
   
   func testRemoveDuplicates2() {
     var testArray: [Int] = [0,0,1,1,1,2,2,3,3,4]
+    let solution = Solution()
+    let len = solution.removeDuplicates(&testArray)
+    var result: [Int] = []
+    
+    for i in 0 ..< len {
+      result.append(testArray[i])
+    }
+    XCTAssertEqual(result, [0, 1, 2, 3, 4])
+  }
+  
+  func testRemoveDuplicates3() {
+    var testArray: [Int] = [0,1,2,2,3,3,4]
     let solution = Solution()
     let len = solution.removeDuplicates(&testArray)
     var result: [Int] = []
