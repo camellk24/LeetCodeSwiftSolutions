@@ -61,8 +61,6 @@ class Solution {
   
   private func twoSum(_ nums: [Int], _ left: Int, _ right: Int, _ target: Int, _ result: inout [[Int]]) {
     
-    
-    
     var i = left
     var j = right
     
