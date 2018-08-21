@@ -38,7 +38,7 @@ extension RandomListNode: Hashable {
 /*:
  **Time Complexity:** O(n)
  
- **Space Complexity:** O(1)
+ **Space Complexity:** O(n)
  */
 
 func copyRandomList(_ head: RandomListNode?) -> RandomListNode? {
