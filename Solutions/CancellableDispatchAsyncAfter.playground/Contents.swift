@@ -48,12 +48,14 @@ class CancellableExecutionItem {
   }
   
   func execute(_ block: @escaping () -> ()) {
-    let controllableBlock = {
-      if !self.isCancelled {
-        block()
-      }
-    }
-    queue.asyncAfter(deadline: dispatchTime, execute: controllableBlock)
+      queue.asyncAfter(deadline: dispatchTime, execute: { [weak self] in
+        guard let _self = self else {
+          return
+        }
+        if !_self.isCancelled {
+          block()
+        }
+      })
   }
   
   func cancel() {

@@ -104,7 +104,6 @@ class Solution_II {
   func longestConsecutive(_ root: TreeNode?) -> Int {
     var maxLength: Int = 0
     _ = traverse(root, &maxLength)
-    
     return maxLength
   }
   
