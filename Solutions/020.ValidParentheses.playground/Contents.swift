@@ -48,41 +48,25 @@
 
 class Solution {
   func isValid(_ s: String) -> Bool {
+    var stack: [Character] = []
     let chars = Array(s)
     
-    var stack: [Character] = []
-    
-    for i in 0 ..< chars.count {
-      let char = chars[i]
-      
+    for char in chars {
       if isOpenP(char) {
         stack.append(char)
       } else if isCloseP(char) {
-        if let last = stack.popLast() {
-          if !isValidPair(last, char) {
+        if stack.isEmpty {
+          return false
+        } else {
+          let last = stack.removeLast()
+          if !isMatch(last, char) {
             return false
           }
-        } else {
-          return false
         }
       }
     }
     
     return stack.isEmpty
-    
-  }
-  
-  private func isValidPair(_ c1: Character, _ c2: Character) -> Bool {
-    if c1 == "(" && c2 != ")" {
-      return false
-    } else if c1 == "[" && c2 != "]" {
-      return false
-    } else if c1 == "{" && c2 != "}" {
-      return false
-    }
-    
-    return true
-    
   }
   
   private func isOpenP(_ char: Character) -> Bool {
@@ -91,6 +75,15 @@ class Solution {
   
   private func isCloseP(_ char: Character) -> Bool {
     return char == ")" || char == "]" || char == "}"
+  }
+  
+  private func isMatch(_ last: Character, _ curr: Character) -> Bool {
+    switch (last, curr) {
+    case ("(", ")"), ("[", "]"), ("{", "}"):
+      return true
+    default:
+      return false
+    }
   }
 }
 
