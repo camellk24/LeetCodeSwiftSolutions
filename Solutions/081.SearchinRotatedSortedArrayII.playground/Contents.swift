@@ -63,15 +63,7 @@ class Solution {
         } else if mid > lastNum && target < lastNum {
           start = mid
         } else {
-          // if num == lastNum, it's possible that duplicate on first half or second half
-          // try increment start see if it's the same number
-          // if it's the same then increment start
-          // otherwise, decrement end
-          if start + 1 < n && nums[start + 1] == num {
-            start += 1
-          } else {
-            end -= 1
-          }
+          checkDuplicateOnBothEnds(&start, &end, nums)
         }
       } else {
         if (num > lastNum && target > lastNum) || (num < lastNum && target < lastNum) {
@@ -79,17 +71,25 @@ class Solution {
         } else if mid < lastNum && target > lastNum {
           end = mid
         } else {
-          // num == lastNum
-          if start + 1 < n && nums[start + 1] == num {
-            start += 1
-          } else {
-            end -= 1
-          }
+          checkDuplicateOnBothEnds(&start, &end, nums)
         }
       }
     }
     
     return (nums[start] == target) || (nums[end] == target)
+  }
+  
+  private func checkDuplicateOnBothEnds(_ start: inout Int, _ end: inout Int, _ nums: [Int]) {
+    // if num == lastNum, it's possible that duplicate on first half or second half
+    // try increment start see if it's the same number
+    // if it's the same then increment start
+    // otherwise, decrement end
+    let n = nums.count
+    if start + 1 < n && nums[start + 1] == nums[start] {
+      start += 1
+    } else {
+      end -= 1
+    }
   }
 }
 
