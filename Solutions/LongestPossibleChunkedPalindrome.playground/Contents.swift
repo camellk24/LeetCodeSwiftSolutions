@@ -51,6 +51,7 @@ class Solution {
     var slowR = fastR
 
     while fastL < fastR {
+      // get subbstring
       let chunkL = substring(s, slowL, fastL + 1)
       let chunkR = substring(s, fastR, slowR + 1)
 
@@ -59,7 +60,7 @@ class Solution {
 
       if chunkL == chunkR {
         count += 2
-        slowL = fastL
+        slowL = fastL // fastL already get update to upper bound
         slowR = fastR
       }
     }

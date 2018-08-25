@@ -65,7 +65,7 @@ class Solution {
     // create edges
     for i in 0 ..< words.count - 1 {
       var index = 0
-      // handle duplicate
+      // handle
       while (index < words[i].count && index < words[i+1].count) {
         let chars1 = Array(words[i])
         let chars2 = Array(words[i+1])
