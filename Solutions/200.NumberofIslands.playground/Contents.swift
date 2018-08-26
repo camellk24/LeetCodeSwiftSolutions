@@ -38,50 +38,48 @@
 class Solution_BFS {
   
   func numIslands(_ grid: [[Character]]) -> Int {
-    guard grid.count > 0 else {
+    guard grid.count > 0 && grid[0].count > 0 else {
       return 0
     }
+    var res = 0
+    var _grid = grid
     
-    var num = 0
-    var mutableGrid = grid
-    
-    for y in 0 ..< mutableGrid.count {
-      for x in 0 ..< mutableGrid[0].count {
-        if mutableGrid[y][x] == "1" {
-          num += 1
-          bfs(&mutableGrid, y, x)
+    for y in 0 ..< _grid.count {
+      for x in 0 ..< _grid[0].count {
+        if _grid[y][x] == "1" {
+          res += 1
+          bfs(y, x, &_grid)
         }
       }
     }
-    
-    return num
+    return res
   }
   
-  private func bfs(_ grid: inout [[Character]], _ y: Int, _ x: Int) {
+  private func bfs(_ y: Int, _ x: Int, _ grid: inout [[Character]]) {
+    
     let rows = grid.count
     let cols = grid[0].count
-    var queue: [(y: Int, x: Int)] = [(y, x)]
-    // grid[y][x] = "0"
     
-    while !queue.isEmpty {
+    var q: [(y: Int, x: Int)] = [(y, x)]
+    
+    while !q.isEmpty {
       
-      let coordinate = queue.removeFirst()
-      grid[coordinate.y][coordinate.x] = "0"
+      let coordinate = q.removeFirst()
+      let y = coordinate.0
+      let x = coordinate.1
       
-      let dy = [0, -1, 0, 1]
-      let dx = [-1, 0, 1, 0]
-      
-      for i in 0...3 {
-        let newY = coordinate.y + dy[i]
-        let newX = coordinate.x + dx[i]
-        
-        if isInBound(newY, newX, rows, cols) && grid[newY][newX] == "1" {
-          grid[newY][newX] = "0"
-          queue.append((newY, newX))
-        }
+      if !isInBound(y, x, rows, cols) || grid[y][x] != "1" {
+        continue
       }
       
+      grid[y][x] = "0"
+      
+      q.append((y+1, x))
+      q.append((y-1, x))
+      q.append((y, x+1))
+      q.append((y, x-1))
     }
+    
   }
   
   private func isInBound(_ y: Int, _ x: Int, _ rows: Int, _ cols: Int) -> Bool {
@@ -116,7 +114,7 @@ class Solution_DFS {
   }
   
   private func dfs(_ grid: inout [[Character]], _ y: Int, _ x: Int) {
-    
+
     let rows = grid.count
     let cols = grid[0].count
     guard isInBound(y, x, rows, cols) && grid[y][x] == "1" else {
