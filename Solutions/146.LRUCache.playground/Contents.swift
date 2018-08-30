@@ -51,29 +51,29 @@
  **Space Complexity:**
  */
 
-class Node {
+class Node<Key: Hashable, Value> {
   
   weak var prev: Node?
   var next: Node?
-  let key: Int
-  var value: Int
+  let key: Key?
+  var value: Value?
   
-  init(_ key: Int, _ value: Int) {
+  init(_ key: Key? = nil, _ value: Value? = nil) {
     self.key = key
     self.value = value
   }
   
 }
 
-class LRUCache {
+class LRUCache<Key: Hashable, Value> {
  
   // need quick accesss to key - dict
-  var dict: [Int : Node] = [:]
+  var dict: [Key : Node<Key, Value>] = [:]
   
   // remove last in O(1) - array, linkedlist, set
   // add/move an entry - linkedlist
-  var head: Node = Node(-1, -1)
-  var tail: Node = Node(-2, -1)
+  var head: Node<Key, Value> = Node()
+  var tail: Node<Key, Value> = Node()
   let capacity: Int
   
   init(_ capacity: Int) {
@@ -82,44 +82,53 @@ class LRUCache {
     tail.prev = head
   }
   
-  func get(_ key: Int) -> Int {
+  func get(_ key: Key) -> Value? {
     if let node = dict[key] {
-      // prev <-> node <-> next
-      // prev <-> next
-      node.prev?.next = node.next
-      node.next?.prev = node.prev
-      
+      takeoutNode(node)
       moveToTail(node)
       return node.value
     } else {
       // no existing node
-      return -1
+      return nil
     }
   }
   
-  func put(_ key: Int, _ value: Int) {
-    if get(key) == -1 {
+  func put(_ key: Key, _ value: Value) {
+    if let _ = get(key) {
+      // get call will move node to tail if node exists
+      dict[key]!.value = value
+    } else {
       // remove if exceed capacity
       if dict.count == capacity {
-        let headNextKey = head.next!.key
-        dict[headNextKey] = nil
-        head.next = head.next?.next
-        head.next?.prev = head
+        evict()
       }
       
       // insert new node
       let newNode = Node(key, value)
       dict[key] = newNode
       moveToTail(newNode)
-    } else {
-      // get call will move node to tail if node exists
-      let oldNode = dict[key]!
-      oldNode.value = value
-      dict[key] = oldNode
     }
   }
   
-  private func moveToTail(_ node: Node) {
+  private func takeoutNode(_ node: Node<Key, Value>) {
+    let prev = node.prev
+    let next = node.next
+    prev?.next = next
+    next?.prev = prev
+    node.next = nil
+    node.prev = nil
+  }
+  
+  private func evict() {
+    if let headNextKey = head.next?.key {
+      dict[headNextKey] = nil
+    }
+    
+    head.next = head.next!.next
+    head.next!.prev = head
+  }
+  
+  private func moveToTail(_ node: Node<Key, Value>) {
     let tailPrev = tail.prev
     tailPrev?.next = node
     node.prev = tailPrev
@@ -137,14 +146,14 @@ import XCTest
 class TestLRUCache: XCTestCase {
   
   func testLRUCache() {
-    let cache = LRUCache(2)
+    let cache = LRUCache<Int, Int>(2)
     cache.put(1, 1)
     cache.put(2, 2)
     XCTAssertEqual(cache.get(1), 1)
     cache.put(3, 3)
-    XCTAssertEqual(cache.get(2), -1)
+    XCTAssertNil(cache.get(2))
     cache.put(4, 4)
-    XCTAssertEqual(cache.get(1), -1)
+    XCTAssertNil(cache.get(1))
     XCTAssertEqual(cache.get(3), 3)
     XCTAssertEqual(cache.get(4), 4)
   }
