@@ -11,13 +11,41 @@
  */
 
 /*:
- **Time Complexity:**
  
- **Space Complexity:**
+ Two Pointers
+ 
+ **Time Complexity:** O(nlogn)
+ 
+ **Space Complexity:** O(1)
  */
-func twoSumII(_ nums: [Int], _ target: Int) -> Int {
-  // TODO: CODE ME
+
+class Solution {
+  func twoSumII(_ nums: [Int], _ target: Int) -> Int {
+    
+    let n = nums.count
+    
+    guard n > 0 else {
+      return 0
+    }
+    
+    var sum = 0
+    var i = 0
+    var j = n - 1
+    
+    while i < j {
+      if nums[i] + nums[j] <= target {
+        i += 1
+      } else {
+        sum += j - i
+        j -= 1
+      }
+    }
+    
+    return sum
+  }
 }
+
+
 
 
 /*:
@@ -27,6 +55,13 @@ import XCTest
 
 class TestTwoSumII: XCTestCase {
   
+  func testTwoSumII() {
+    let nums = [2, 7, 11, 15]
+    let target = 24
+    let solution = Solution()
+    let result = solution.twoSumII(nums, target)
+    XCTAssertEqual(result, 1)
+  }
   
 }
 
