@@ -1,3 +1,3 @@
-# LeetCodeSwiftSolutions
+# Interview Solutions in Swift
 
-for self-learning purpose.
+Providing solutions for interview questions from LeetCode, LintCode and other interview questions.
