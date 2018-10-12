@@ -14,7 +14,7 @@
  
  Two Pointers
  
- **Time Complexity:** O(nlogn)
+ **Time Complexity:** O(nlogn) + O(n) -> O(nlogn)
  
  **Space Complexity:** O(1)
  */
